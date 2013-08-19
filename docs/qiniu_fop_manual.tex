@@ -1,0 +1,148 @@
+\documentclass[11pt, oneside]{book}
+\usepackage{geometry}
+\geometry{a4paper}
+
+\usepackage{CJKutf8}
+
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily}
+
+\newcommand{\qpar}[1]{
+\vspace{0.25em}
+\noindent
+#1\par
+\vspace{0.25em}
+}
+
+\newcommand{\qurl}[1]{\url{#1}}
+
+\newcommand{\qqbox}[1]{\hspace{0.2em}\fbox{#1}\hspace{0.2em}}
+
+\newcommand{\qtable}[1]{\vspace{0.5em}#1\vspace{0.5em}}
+
+
+\title{七牛云存储 \\ 云处理使用指南}
+\author{梁涛 @七牛云存储}
+\date{2013-08-19}
+
+\begin{document}
+
+\begin{CJK*}{UTF8}{song}
+\maketitle
+
+\chapter{图片处理}
+
+\section{获取图片信息}
+
+\subsection{获取基本信息}
+
+\qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、长宽值（单位：像素）、色彩模型。}
+\qpar{缩略图不支持该方法。}
+
+\begin{quote}
+示例URL（点击查看）：\par
+\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}\par
+$\Rightarrow$\par
+\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}\par
+\end{quote}
+
+\begin{quote}
+返回结果：
+\begin{verbatim}
+{
+   "format":     "jpeg",
+   "width":      640,     // 像素
+   "height":     427,     // 像素
+   "colorModel": "ycbcr"
+}
+\end{verbatim}
+\end{quote}
+
+\subsection{获取EXIF信息}
+
+\qpar{EXIF（EXchangeable Image File Format），是专门为数码相机的照片设定的可交换图像文件格式，
+详见\href{http://zh.wikipedia.org/wiki/EXIF}{维基百科}。}
+\qpar{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。}
+\qpar{缩略图不支持该方法。}
+
+\begin{quote}
+示例URL（点击查看）：\par
+\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}\par
+$\Rightarrow$\par
+\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}\par
+\end{quote}
+
+\begin{quote}
+返回结果：
+\begin{verbatim}
+{
+   "DateTime" : {
+      "type" : 2,
+      "val" : "2011:11:19 17:09:23"
+   },
+   "ExposureBiasValue" : {
+      "type" : 10,
+      "val" : "0.33 EV"
+   },
+   "ExposureTime" : {
+      "type" : 5,
+      "val" : "1/50 sec."
+   },
+   "Model" : {
+      "type" : 2,
+      "val" : "Canon EOS 600D"
+   },
+   "ISOSpeedRatings" : {
+      "type" : 3,
+      "val" : "3200"
+   },
+   "ResolutionUnit" : {
+      "type" : 3,
+      "val" : "英寸"
+   },
+   "MeteringMode" : {
+      "type" : 3,
+      "val" : "样式"
+   },
+   ...略...
+}
+\end{verbatim}
+\end{quote}
+
+\clearpage
+
+\section{生成缩略图}
+
+\qpar{在图片下载URL后附加\qqbox{imageView}指示符与缩略规格，可以生成该图片的缩略图。}
+\qpar{调用接口：}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+<URL>?imageView/<mode>/w/<width>/h/<height>/q/<quality>/format/<format>
+\end{lstlisting}
+
+\qpar{参数说明：}
+\qtable{
+\def\arraystretch{1.5}
+\begin{tabular}{|l|l|}
+\hline
+名称 & 说明 \\
+\hline
+\textless mode\textgreater & 缩略处理模式 \\
+\hline
+\textless width\textgreater & 缩略图宽度，单位：像素（px） \\
+\hline
+\textless height\textgreater & 缩略图高度，单位：像素（px） \\
+\hline
+\textless quality\textgreater & 缩略图质量，取值范围1－100 \\
+\hline
+\textless format\textgreater & 缩略图格式，支持jpg、gif、png、webp等 \\
+\hline
+\end{tabular}
+}
+
+\end{CJK*}
+
+\end{document}
