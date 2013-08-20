@@ -24,8 +24,8 @@
 
 \newcommand{\qtable}[1]{\vspace{0.5em}#1\vspace{0.5em}}
 
-\title{七牛云存储 \\ 云处理使用指南}
-\author{梁涛 @七牛云存储}
+\title{七牛云处理服务使用指南}
+\author{梁涛 \\ @七牛云存储}
 \date{2013-08-19}
 
 \begin{document}
@@ -42,7 +42,7 @@
 \qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、宽高值（单位：像素）、色彩模型。}
 \qpar{注意：缩略图不支持该方法。}
 
-\qpar{示例（点击查看效果）：}
+\qpar{示例：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}}
@@ -66,7 +66,7 @@
 \qpar{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。}
 \qpar{注意：缩略图不支持该方法。}
 
-\qpar{示例（点击查看效果）：}
+\qpar{示例：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}}
@@ -156,20 +156,20 @@
 \hline
 模式 & 说明 & 备注 \\
 \hline
-\textless mode\textgreater=1 & 同时限定宽度和高度，从原图居中位置按比例裁切，生成\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
+\textless mode\textgreater=1 & 同时限定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
 \hline
-\textless mode\textgreater=2 & 同时限定宽度和高度，原图完整缩放为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例2 \\
+\textless mode\textgreater=2 & 同时限定宽度和高度，原图完整缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例2 \\
 \hline
-\textless mode\textgreater=2 & 仅限定宽度，高度等比自适应缩放。 & 参看示例3 \\
+\textless mode\textgreater=2 & 仅限定宽度，高度等比自适应缩小。 & 参看示例2 \\
 \hline
-\textless mode\textgreater=2 & 仅限定高度，宽度等比自适应缩放。 & 参看示例4 \\
+\textless mode\textgreater=2 & 仅限定高度，宽度等比自适应缩小。 & 参看示例3 \\
 \hline
 \end{tabular}
 }
 
 \clearpage
 
-\qpar{示例1，居中裁切生成200x200缩略图（点击查看效果）：}
+\qpar{示例1，等比裁剪正中部分缩小为200x200缩略图：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
@@ -178,11 +178,26 @@
 \includegraphics[scale=0.7]{../pics/gogopher_imageView_1_200x200.png}
 \end{center}
 
-%\qpar{生成步骤：}
-%\begin{enumerate}
-%    \item 按指定的200x200尺寸，等比例生成一个427x427的选区，与原图短边（即高度）一致；
-%    \item 将选区居中对齐原图，切出选区部分，等比例缩略至200x200。
-%\end{enumerate}
+\qpar{示例2，原图缩小为200x133缩略图：}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+\qpar{$\Rightarrow$}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200/h/200}}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
+
+\begin{center}
+\includegraphics[scale=0.7]{../pics/gogopher_imageView_2_200x200.png}
+\end{center}
+
+\clearpage
+
+\qpar{示例3，原图缩小为300x200缩略图：}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+\qpar{$\Rightarrow$}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
+
+\begin{center}
+\includegraphics[scale=0.7]{../pics/gogopher_imageView_2_x200.png}
+\end{center}
 
 \end{CJK*}
 
