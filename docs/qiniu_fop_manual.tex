@@ -24,7 +24,6 @@
 
 \newcommand{\qtable}[1]{\vspace{0.5em}#1\vspace{0.5em}}
 
-
 \title{七牛云存储 \\ 云处理使用指南}
 \author{梁涛 @七牛云存储}
 \date{2013-08-19}
@@ -40,18 +39,15 @@
 
 \subsection{获取基本信息}
 
-\qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、长宽值（单位：像素）、色彩模型。}
-\qpar{缩略图不支持该方法。}
+\qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、宽高值（单位：像素）、色彩模型。}
+\qpar{注意：缩略图不支持该方法。}
 
-\begin{quote}
-示例URL（点击查看）：\par
-\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}\par
-$\Rightarrow$\par
-\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}\par
-\end{quote}
+\qpar{示例（点击查看效果）：}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+\qpar{$\Rightarrow$}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}}
 
-\begin{quote}
-返回结果：
+\qpar{返回结果：}
 \begin{verbatim}
 {
    "format":     "jpeg",
@@ -60,24 +56,22 @@ $\Rightarrow$\par
    "colorModel": "ycbcr"
 }
 \end{verbatim}
-\end{quote}
+
+\clearpage
 
 \subsection{获取EXIF信息}
 
 \qpar{EXIF（EXchangeable Image File Format），是专门为数码相机的照片设定的可交换图像文件格式，
 详见\href{http://zh.wikipedia.org/wiki/EXIF}{维基百科}。}
 \qpar{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。}
-\qpar{缩略图不支持该方法。}
+\qpar{注意：缩略图不支持该方法。}
 
-\begin{quote}
-示例URL（点击查看）：\par
-\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}\par
-$\Rightarrow$\par
-\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}\par
-\end{quote}
+\qpar{示例（点击查看效果）：}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+\qpar{$\Rightarrow$}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}}
 
-\begin{quote}
-返回结果：
+\qpar{返回结果：}
 \begin{verbatim}
 {
    "DateTime" : {
@@ -104,44 +98,91 @@ $\Rightarrow$\par
       "type" : 3,
       "val" : "英寸"
    },
-   "MeteringMode" : {
-      "type" : 3,
-      "val" : "样式"
-   },
-   ...略...
+   ...其余略...
 }
 \end{verbatim}
-\end{quote}
 
 \clearpage
 
 \section{生成缩略图}
 
-\qpar{在图片下载URL后附加\qqbox{imageView}指示符与缩略规格，可以生成该图片的缩略图。}
+\qpar{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩略规格，可以生成该图片的缩略图。}
 \qpar{调用接口：}
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 <URL>?imageView/<mode>/w/<width>/h/<height>/q/<quality>/format/<format>
 \end{lstlisting}
 
+%\begin{verbatim}
+%<URL>?imageView/<mode>/w/<width>/h/<height>/q/<quality>/format/<format>
+%     |________||_____||________||_________||__________||______________|
+%          |       |        |         |           |            |
+% 指示符 --+       |        |         |           |            |
+%                  |        |         |           |            |
+% 缩略模式 --------+        |         |           |            |
+%                           |         |           |            |
+% 缩略宽度（像素） ---------+         |           |            |
+%                                     |           |            |
+% 缩略高度（像素） -------------------+           |            |
+%                                                 |            |
+% 缩略质量（取值1-100） --------------------------+            |
+%                                                              |
+% 图片格式（支持jpg、gif、webp等） ----------------------------+
+%\end{verbatim}
+
 \qpar{参数说明：}
 \qtable{
 \def\arraystretch{1.5}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|l|l|}
 \hline
-名称 & 说明 \\
+名称 & 说明 & 备注\\
 \hline
-\textless mode\textgreater & 缩略处理模式 \\
+\textless mode\textgreater & 处理模式 & \\
 \hline
-\textless width\textgreater & 缩略图宽度，单位：像素（px） \\
+\textless width\textgreater & 缩略宽度，单位：像素（px） & \\
 \hline
-\textless height\textgreater & 缩略图高度，单位：像素（px） \\
+\textless height\textgreater & 缩略高度，单位：像素（px） & \\
 \hline
-\textless quality\textgreater & 缩略图质量，取值范围1－100 \\
+\textless quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
 \hline
-\textless format\textgreater & 缩略图格式，支持jpg、gif、png、webp等 \\
+\textless format\textgreater & 图片格式，支持jpg、gif、png、webp等 & 可选，缺省为原图格式 \\
 \hline
 \end{tabular}
 }
+
+\qpar{其中\textless mode\textgreater分为如下4种情况：}
+\qtable{
+\def\arraystretch{1.5}
+\begin{tabular}{|l|p{22em}|l|}
+\hline
+模式 & 说明 & 备注 \\
+\hline
+\textless mode\textgreater=1 & 同时限定宽度和高度，从原图居中位置按比例裁切，生成\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
+\hline
+\textless mode\textgreater=2 & 同时限定宽度和高度，原图完整缩放为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例2 \\
+\hline
+\textless mode\textgreater=2 & 仅限定宽度，高度等比自适应缩放。 & 参看示例3 \\
+\hline
+\textless mode\textgreater=2 & 仅限定高度，宽度等比自适应缩放。 & 参看示例4 \\
+\hline
+\end{tabular}
+}
+
+\clearpage
+
+\qpar{示例1，居中裁切生成200x200缩略图（点击查看效果）：}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+\qpar{$\Rightarrow$}
+\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
+
+\begin{center}
+\includegraphics[scale=0.7]{../pics/gogopher_imageView_1_200x200.png}
+\end{center}
+
+%\qpar{生成步骤：}
+%\begin{enumerate}
+%    \item 按指定的200x200尺寸，等比例生成一个427x427的选区，与原图短边（即高度）一致；
+%    \item 将选区居中对齐原图，切出选区部分，等比例缩略至200x200。
+%\end{enumerate}
 
 \end{CJK*}
 
