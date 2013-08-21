@@ -156,47 +156,47 @@
 \hline
 模式 & 说明 & 备注 \\
 \hline
-\textless mode\textgreater=1 & 同时限定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
+\textless mode\textgreater=1 & 同时指定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
 \hline
-\textless mode\textgreater=2 & 同时限定宽度和高度，原图完整缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例2 \\
+\textless mode\textgreater=2 & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& 参看示例2 \\
 \hline
-\textless mode\textgreater=2 & 仅限定宽度，高度等比自适应缩小。 & 参看示例2 \\
+\textless mode\textgreater=2 & 仅指定宽度，高度等比缩小。 & 参看示例2 \\
 \hline
-\textless mode\textgreater=2 & 仅限定高度，宽度等比自适应缩小。 & 参看示例3 \\
+\textless mode\textgreater=2 & 仅指定高度，宽度等比缩小。 & 参看示例3 \\
 \hline
 \end{tabular}
 }
 
 \clearpage
 
-\qpar{示例1，等比裁剪正中部分缩小为200x200缩略图：}
+\qpar{示例1，裁剪正中部分，等比缩小生成200x200缩略图：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
 
 \begin{center}
-\includegraphics[scale=0.7]{../pics/gogopher_imageView_1_200x200.png}
+\includegraphics[scale=0.65]{../pics/gogopher_imageView_1_200x200.jpg}
 \end{center}
 
-\qpar{示例2，原图缩小为200x133缩略图：}
+\qpar{示例2，宽度固定为200px，高度等比缩小，生成200x133缩略图：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200/h/200}}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
 
 \begin{center}
-\includegraphics[scale=0.7]{../pics/gogopher_imageView_2_200x200.png}
+\includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
 \end{center}
 
 \clearpage
 
-\qpar{示例3，原图缩小为300x200缩略图：}
+\qpar{示例3，高度固定为200px，宽度等比缩小，生成300x200缩略图：}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
 \qpar{$\Rightarrow$}
 \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
 
 \begin{center}
-\includegraphics[scale=0.7]{../pics/gogopher_imageView_2_x200.png}
+\includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
 \end{center}
 
 \end{CJK*}
