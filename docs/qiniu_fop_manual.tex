@@ -109,11 +109,11 @@
 \qpar{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩略规格，可以生成该图片的缩略图。}
 \qpar{调用接口：}
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-<URL>?imageView/<mode>/w/<width>/h/<height>/q/<quality>/format/<format>
+<URL>?imageView/<Mode>/w/<Width>/h/<Height>/q/<Quality>/format/<Format>
 \end{lstlisting}
 
 %\begin{verbatim}
-%<URL>?imageView/<mode>/w/<width>/h/<height>/q/<quality>/format/<format>
+%<URL>?imageView/<Mode>/w/<Width>/h/<Height>/q/<Quality>/format/<Format>
 %     |________||_____||________||_________||__________||______________|
 %          |       |        |         |           |            |
 % 指示符 --+       |        |         |           |            |
@@ -136,15 +136,15 @@
 \hline
 名称 & 说明 & 备注\\
 \hline
-\textless mode\textgreater & 处理模式 & \\
+\textless Mode\textgreater & 处理模式 & \\
 \hline
-\textless width\textgreater & 缩略宽度，单位：像素（px） & \\
+\textless Width\textgreater & 缩略宽度，单位：像素（px） & \\
 \hline
-\textless height\textgreater & 缩略高度，单位：像素（px） & \\
+\textless Height\textgreater & 缩略高度，单位：像素（px） & \\
 \hline
-\textless quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
+\textless Quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
 \hline
-\textless format\textgreater & 图片格式，支持jpg、gif、png、webp等 & 可选，缺省为原图格式 \\
+\textless Format\textgreater & 图片格式，支持jpg、gif、png、webp等 & 可选，缺省为原图格式 \\
 \hline
 \end{tabular}
 }
@@ -198,6 +198,59 @@
 \begin{center}
 \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
 \end{center}
+
+\clearpage
+
+\section{高级图片处理}
+
+\qpar{除了能方便地生成缩略图外，七牛云处理服务还提供其它高级图片处理功能，包括缩略、裁剪、旋转等等。}
+\qpar{调用接口：}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+<URL>?imageMogr/v2/auto-orient
+                  /thumbnail/<ImageSize>
+                  /gravity/<GravityType>
+                  /crop/<ImageSizeAndOffset>
+                  /quality/<Quality>
+                  /rotate/<Degree>
+                  /format/<Format>
+\end{lstlisting}
+
+\qpar{参数说明：}
+\qtable{
+\def\arraystretch{1.5}
+\footnotesize
+\begin{tabular}{|l|p{18em}|p{10em}|}
+\hline
+名称 & 说明 & 备注\\
+\hline
+\textless ImageSize\textgreater & 缩略图规格，参见规格说明表 & 可选，缺省为不缩略 \\
+\hline
+\textless GravityType\textgreater & 位置偏移，只会影响其后的裁剪偏移(Offset)，可选值参看位置偏移取值表 & 可选，缺省为左上角（NorthWest） \\
+\hline
+\textless ImageSizeAndOffset\textgreater & 裁剪规格，参见规格说明表 & 可选，缺省为不裁剪 \\
+\hline
+\textless Quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
+\hline
+\textless Degree\textgreater & 旋转角度，取值范围1－360 & 可选，缺省为不旋转 \\
+\hline
+\textless Format\textgreater & 图片格式，支持jpg、gif、png、webp等 & 可选，缺省为原图格式 \\
+\hline
+\end{tabular}
+}
+
+\qpar{位置偏移取值表：}
+\qtable{
+\footnotesize
+\begin{tabular}[t]{|l|c|r|}
+\hline
+\parbox[t][6em]{6em}{NorthWest} & \parbox[t][6em]{6em}{\makebox[6em][c]{North}} & \parbox[t][6em]{6em}{\makebox[6em][r]{NorthEast}} \\
+\hline
+\parbox[c][6em]{6em}{West} & \parbox[c][6em]{6em}{\makebox[6em][c]{Center}} & \parbox[c][6em]{6em}{\makebox[6em][r]{East}} \\
+\hline
+\parbox[b][6em]{6em}{SouthWest} & \parbox[b][6em]{6em}{\makebox[6em][c]{South}} & \parbox[b][6em]{6em}{\makebox[6em][r]{SouthEast}} \\
+\hline
+\end{tabular}
+}
 
 \end{CJK*}
 
