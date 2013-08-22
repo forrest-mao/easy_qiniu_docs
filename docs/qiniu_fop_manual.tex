@@ -11,6 +11,9 @@
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily}
 
+\usepackage{float}
+\usepackage{color}
+
 \newcommand{\qpar}[1]{
 \vspace{0.25em}
 \noindent
@@ -19,10 +22,8 @@
 }
 
 \newcommand{\qurl}[1]{\url{#1}}
-
 \newcommand{\qqbox}[1]{\hspace{0.2em}\fbox{#1}\hspace{0.2em}}
-
-\newcommand{\qtable}[1]{\vspace{0.5em}#1\vspace{0.5em}}
+\newcommand{\qtable}[1]{\footnotesize\vspace{0.5em}#1\vspace{0.5em}\normalsize}
 
 \title{七牛云处理服务使用指南}
 \author{梁涛 \\ @七牛云存储}
@@ -33,21 +34,26 @@
 \begin{CJK*}{UTF8}{song}
 \maketitle
 
+\floatstyle{ruled}
+\newfloat{sample}{h}{sample}[chapter]
+\floatname{sample}{示例}
+
 \chapter{图片处理}
 
 \section{获取图片信息}
 
-\subsection{获取基本信息}
+\subsection{基本信息}
 
-\qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、宽高值（单位：像素）、色彩模型。}
-\qpar{注意：缩略图不支持该方法。}
+\qpar{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、宽高值（单位：像素）、色彩模型。\textcolor{red}{注意：缩略图不支持该方法。}}
 
-\qpar{示例：}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
-\qpar{$\Rightarrow$}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}}
+\begin{sample}
+  \caption{获取图片基本信息}
 
-\qpar{返回结果：}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageInfo}}
+
+    \qpar{返回结果：}
 \begin{verbatim}
 {
    "format":     "jpeg",
@@ -57,21 +63,23 @@
 }
 \end{verbatim}
 
-\clearpage
+  \label{imageInfo}
+\end{sample}
 
-\subsection{获取EXIF信息}
+\subsection{EXIF信息}
 
 \qpar{EXIF（EXchangeable Image File Format），是专门为数码相机的照片设定的可交换图像文件格式，
 详见\href{http://zh.wikipedia.org/wiki/EXIF}{维基百科}。}
-\qpar{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。}
-\qpar{注意：缩略图不支持该方法。}
+\qpar{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。\textcolor{red}{注意：缩略图不支持该方法。}}
 
-\qpar{示例：}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
-\qpar{$\Rightarrow$}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}}
+\begin{sample}
+  \caption{获取图片EXIF信息}
 
-\qpar{返回结果：}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?exif}}
+
+    \qpar{返回结果：}
 \begin{verbatim}
 {
    "DateTime" : {
@@ -101,6 +109,8 @@
    ...其余略...
 }
 \end{verbatim}
+  \label{exif}
+\end{sample}
 
 \clearpage
 
@@ -156,48 +166,57 @@
 \hline
 模式 & 说明 & 备注 \\
 \hline
-\textless mode\textgreater=1 & 同时指定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看示例1 \\
+\textless mode\textgreater=1 & 同时指定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& 参看\hyperref[imageView-1-200x200]{示例\ref*{imageView-1-200x200}} \\
 \hline
-\textless mode\textgreater=2 & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& 参看示例2 \\
+\textless mode\textgreater=2 & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& 参看\hyperref[imageView-2-200x200]{示例\ref*{imageView-2-200x200}} \\
 \hline
-\textless mode\textgreater=2 & 仅指定宽度，高度等比缩小。 & 参看示例2 \\
+\textless mode\textgreater=2 & 仅指定宽度，高度等比缩小。 & 参看\hyperref[imageView-2-200x200]{示例\ref*{imageView-2-200x200}} \\
 \hline
-\textless mode\textgreater=2 & 仅指定高度，宽度等比缩小。 & 参看示例3 \\
+\textless mode\textgreater=2 & 仅指定高度，宽度等比缩小。 & 参看\hyperref[imageView-2-x200]{示例\ref*{imageView-2-x200}} \\
 \hline
 \end{tabular}
 }
 
 \clearpage
 
-\qpar{示例1，裁剪正中部分，等比缩小生成200x200缩略图：}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
-\qpar{$\Rightarrow$}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
+\begin{sample}
+  \caption{裁剪正中部分，等比缩小生成200x200缩略图}
+  
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
 
-\begin{center}
-\includegraphics[scale=0.65]{../pics/gogopher_imageView_1_200x200.jpg}
-\end{center}
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageView_1_200x200.jpg}
+    \end{center}
 
-\qpar{示例2，宽度固定为200px，高度等比缩小，生成200x133缩略图：}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
-\qpar{$\Rightarrow$}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200/h/200}}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
+  \label{imageView-1-200x200}
+\end{sample}
 
-\begin{center}
-\includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
-\end{center}
+\begin{sample}
+  \caption{宽度固定为200px，高度等比缩小，生成200x133缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200/h/200}}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
 
-\clearpage
+    \begin{center}
+    \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
+    \end{center}
+  \label{imageView-2-200x200}
+\end{sample}
 
-\qpar{示例3，高度固定为200px，宽度等比缩小，生成300x200缩略图：}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
-\qpar{$\Rightarrow$}
-\qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
+\begin{sample}
+  \caption{高度固定为200px，宽度等比缩小，生成300x200缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
 
-\begin{center}
-\includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
-\end{center}
+    \begin{center}
+    \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
+    \end{center}
+  \label{imageView-2-x200}
+\end{sample}
 
 \clearpage
 
@@ -218,7 +237,6 @@
 \qpar{参数说明：}
 \qtable{
 \def\arraystretch{1.5}
-\footnotesize
 \begin{tabular}{|l|p{18em}|p{10em}|}
 \hline
 名称 & 说明 & 备注\\
@@ -240,7 +258,6 @@
 
 \qpar{位置偏移取值表：}
 \qtable{
-\footnotesize
 \begin{tabular}[t]{|l|c|r|}
 \hline
 \parbox[t][6em]{6em}{NorthWest} & \parbox[t][6em]{6em}{\makebox[6em][c]{North}} & \parbox[t][6em]{6em}{\makebox[6em][r]{NorthEast}} \\
@@ -248,6 +265,39 @@
 \parbox[c][7em]{6em}{West} & \parbox[c][7em]{6em}{\makebox[6em][c]{Center}} & \parbox[c][7em]{6em}{\makebox[6em][r]{East}} \\
 \hline
 \parbox[b][6em]{6em}{SouthWest} & \parbox[b][6em]{6em}{\makebox[6em][c]{South}} & \parbox[b][6em]{6em}{\makebox[6em][r]{SouthEast}} \\
+\hline
+\end{tabular}
+}
+
+\clearpage
+
+\qpar{规格说明表：}
+\qtable{
+\begin{tabular}[t]{|l|p{20em}|p{3em}|p{3em}|}
+\hline
+规格 & 说明 & 缩略图 & 裁剪 \\
+\hline
+\textless Scale\textgreater\% & 基于原图大小，按指定百分比缩放。取值范围0－1000 & 适用 & 适用 \\
+\hline
+\textless Scale\textgreater\%x & 以百分比形式指定缩略图宽度，高度等比缩放。取值范围0－1000 & 适用 & 适用 \\
+\hline
+x\textless Scale\textgreater\% & 以百分比形式指定缩略图高度，宽度等比缩放。取值范围0－1000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater & 指定缩略图宽度，高度等比缩放。取值范围0－10000 & 适用 & 适用 \\
+\hline
+x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater & 限定长边，短边自适应缩放，将缩略图限制在指定宽高矩形内。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater \^ & 限定短边，长边自适应缩放，缩略图会延伸至指定宽高矩形外。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater ! & 限定缩略图宽高值，忽略原图宽高比例，按照指定宽高值强行缩略，可能导致缩略图变形。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater \textgreater & 当原图尺寸大于给定的宽度或高度时，按照给定宽高值缩小。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater \textless & 当原图尺寸小于给定的宽度或高度时，按照给定宽高值放大。取值范围0－10000 & 适用 & 适用 \\
+\hline
+\textless Area\textgreater @ & 按原图高宽比例等比缩放，缩放后的像素数量不超过指定值。取值范围0－10$^8$ & 适用 & 适用 \\
 \hline
 \end{tabular}
 }
