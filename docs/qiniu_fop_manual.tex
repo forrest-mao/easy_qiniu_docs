@@ -25,7 +25,13 @@
 \newcommand{\qqbox}[1]{\hspace{0.2em}\fbox{#1}\hspace{0.2em}}
 \newcommand{\qtable}[1]{\footnotesize\vspace{0.5em}#1\vspace{0.5em}\normalsize}
 
-\title{七牛云处理服务使用指南}
+\floatstyle{ruled}
+\newfloat{sample}{H}{sample}[chapter]
+\floatname{sample}{示例}
+
+\setlength{\textheight}{680pt}
+
+\title{七牛云处理服务使用指南 \\ 图片处理部分}
 \author{梁涛 \\ @七牛云存储}
 \date{2013-08-19}
 
@@ -33,10 +39,6 @@
 
 \begin{CJK*}{UTF8}{song}
 \maketitle
-
-\floatstyle{ruled}
-\newfloat{sample}{h}{sample}[chapter]
-\floatname{sample}{示例}
 
 \chapter{图片处理}
 
@@ -141,7 +143,7 @@
 
 \qpar{参数说明：}
 \qtable{
-\def\arraystretch{1.5}
+\def\arraystretch{2}
 \begin{tabular}{|l|l|l|}
 \hline
 名称 & 说明 & 备注\\
@@ -161,7 +163,7 @@
 
 \qpar{其中\textless mode\textgreater分为如下4种情况：}
 \qtable{
-\def\arraystretch{1.5}
+\def\arraystretch{2}
 \begin{tabular}{|l|p{22em}|l|}
 \hline
 模式 & 说明 & 备注 \\
@@ -181,7 +183,6 @@
 
 \begin{sample}
   \caption{裁剪正中部分，等比缩小生成200x200缩略图}
-  
     \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
     \qpar{$\Rightarrow$}
     \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
@@ -189,7 +190,6 @@
     \begin{center}
       \includegraphics[scale=0.65]{../pics/gogopher_imageView_1_200x200.jpg}
     \end{center}
-
   \label{imageView-1-200x200}
 \end{sample}
 
@@ -201,7 +201,7 @@
     \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
 
     \begin{center}
-    \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
     \end{center}
   \label{imageView-2-200x200}
 \end{sample}
@@ -213,7 +213,7 @@
     \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
 
     \begin{center}
-    \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
     \end{center}
   \label{imageView-2-x200}
 \end{sample}
@@ -236,7 +236,7 @@
 
 \qpar{参数说明：}
 \qtable{
-\def\arraystretch{1.5}
+\def\arraystretch{2}
 \begin{tabular}{|l|p{18em}|p{10em}|}
 \hline
 名称 & 说明 & 备注\\
@@ -273,34 +273,90 @@
 
 \qpar{规格说明表：}
 \qtable{
-\begin{tabular}[t]{|l|p{20em}|p{3em}|p{3em}|}
+\begin{tabular}[t]{|l|p{18em}|p{5em}|p{5em}|}
 \hline
-规格 & 说明 & 缩略图 & 裁剪 \\
+规格 & 说明 & /thumbnail & /crop \\
 \hline
-\textless Scale\textgreater\% & 基于原图大小，按指定百分比缩放。取值范围0－1000 & 适用 & 适用 \\
+!\textless Scale\textgreater p & 基于原图大小，按指定百分比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
 \hline
-\textless Scale\textgreater\%x & 以百分比形式指定缩略图宽度，高度等比缩放。取值范围0－1000 & 适用 & 适用 \\
+!\textless Scale\textgreater px & 以百分比形式指定缩略图宽度，高度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
 \hline
-x\textless Scale\textgreater\% & 以百分比形式指定缩略图高度，宽度等比缩放。取值范围0－1000 & 适用 & 适用 \\
+!x\textless Scale\textgreater p & 以百分比形式指定缩略图高度，宽度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
 \hline
-\textless Width\textgreater & 指定缩略图宽度，高度等比缩放。取值范围0－10000 & 适用 & 适用 \\
+\textless Width\textgreater x & 指定缩略图宽度，高度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} & \hyperref[imageMogr-crop-300x]{示例\ref*{imageMogr-crop-300x}} \\
 \hline
-x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取值范围0－10000 & 适用 & 适用 \\
+x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} & \hyperref[imageMogr-crop-x200]{示例\ref*{imageMogr-crop-x200}} \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater & 限定长边，短边自适应缩放，将缩略图限制在指定宽高矩形内。取值范围0－10000 & 适用 & 适用 \\
+\textless Width\textgreater x\textless Height\textgreater & 限定长边，短边自适应缩放，将缩略图限制在指定宽高矩形内。取值范围0－10000 & － & － \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater \^ & 限定短边，长边自适应缩放，缩略图会延伸至指定宽高矩形外。取值范围0－10000 & 适用 & 适用 \\
+!\textless Width\textgreater x\textless Height\textgreater r & 限定短边，长边自适应缩放，缩略图会延伸至指定宽高矩形外。取值范围0－10000 & － & － \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater ! & 限定缩略图宽高值，忽略原图宽高比例，按照指定宽高值强行缩略，可能导致缩略图变形。取值范围0－10000 & 适用 & 适用 \\
+\textless Width\textgreater x\textless Height\textgreater ! & 限定缩略图宽高值，忽略原图宽高比例，按照指定宽高值强行缩略，可能导致缩略图变形。取值范围0－10000 & － & － \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater \textgreater & 当原图尺寸大于给定的宽度或高度时，按照给定宽高值缩小。取值范围0－10000 & 适用 & 适用 \\
+\textless Width\textgreater x\textless Height\textgreater \textgreater & 当原图尺寸大于给定的宽度或高度时，按照给定宽高值缩小。取值范围0－10000 & － & － \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater \textless & 当原图尺寸小于给定的宽度或高度时，按照给定宽高值放大。取值范围0－10000 & 适用 & 适用 \\
+\textless Width\textgreater x\textless Height\textgreater \textless & 当原图尺寸小于给定的宽度或高度时，按照给定宽高值放大。取值范围0－10000 & － & － \\
 \hline
-\textless Area\textgreater @ & 按原图高宽比例等比缩放，缩放后的像素数量不超过指定值。取值范围0－10$^8$ & 适用 & 适用 \\
+\textless Area\textgreater @ & 按原图高宽比例等比缩放，缩放后的像素数量不超过指定值。取值范围0－10$^8$ & － & － \\
 \hline
 \end{tabular}
 }
+
+\begin{sample}
+  \caption{生成480x320缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{等比缩小75\%}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!75p}}
+    \qpar{按原宽度75\%等比缩小}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!75px}}
+    \qpar{按原高度75\%等比缩小}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!x75p}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_75p.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-75p}
+\end{sample}
+
+\begin{sample}
+  \caption{生成700x467放大图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{指定新宽度为700px}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/700x}}
+    \qpar{指定新高度为467px}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/x467}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_700px.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-700px}
+\end{sample}
+
+\begin{sample}
+  \caption{生成300x427裁剪图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/300x}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x.jpg}
+    \end{center}
+  \label{imageMogr-crop-300x}
+\end{sample}
+
+\begin{sample}
+  \caption{生成640x200裁剪图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/x200}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_x200.jpg}
+    \end{center}
+  \label{imageMogr-crop-x200}
+\end{sample}
 
 \end{CJK*}
 
