@@ -39,6 +39,7 @@
 
 \begin{CJK*}{UTF8}{song}
 \maketitle
+\tableofcontents
 
 \chapter{图片处理}
 
@@ -241,11 +242,11 @@
 \hline
 名称 & 说明 & 备注\\
 \hline
-\textless ImageSize\textgreater & 缩略图规格，参见规格说明表 & 可选，缺省为不缩略 \\
+\textless ImageSize\textgreater & 参看\hyperref[thumbnail-spec]{缩略图规格说明表} & 可选，缺省为不缩略 \\
 \hline
-\textless GravityType\textgreater & 位置偏移，只会影响其后的裁剪偏移(Offset)，可选值参看位置偏移取值表 & 可选，缺省为左上角（NorthWest） \\
+\textless GravityType\textgreater & 参看\hyperref[offset-spec]{位置偏移取值表}，只会影响其后的裁剪偏移 & 可选，缺省为左上角（NorthWest） \\
 \hline
-\textless ImageSizeAndOffset\textgreater & 裁剪规格，参见规格说明表 & 可选，缺省为不裁剪 \\
+\textless ImageSizeAndOffset\textgreater & 参看\hyperref[crop-spec]{裁剪图规格说明表} & 可选，缺省为不裁剪 \\
 \hline
 \textless Quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
 \hline
@@ -258,6 +259,7 @@
 
 \qpar{位置偏移取值表：}
 \qtable{
+\label{offset-spec}
 \begin{tabular}[t]{|l|c|r|}
 \hline
 \parbox[t][6em]{6em}{NorthWest} & \parbox[t][6em]{6em}{\makebox[6em][c]{North}} & \parbox[t][6em]{6em}{\makebox[6em][r]{NorthEast}} \\
@@ -271,33 +273,34 @@
 
 \clearpage
 
-\qpar{规格说明表：}
+\qpar{缩略图规格说明表：}
 \qtable{
-\begin{tabular}[t]{|l|p{18em}|p{5em}|p{5em}|}
+\label{thumbnail-spec}
+\begin{tabular}[t]{|l|p{22em}|p{5em}|}
 \hline
-规格 & 说明 & /thumbnail & /crop \\
+规格 & 说明 & 示例 \\
 \hline
-!\textless Scale\textgreater p & 基于原图大小，按指定百分比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
+!\textless Scale\textgreater p & 基于原图大小，按指定百分比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} \\
 \hline
-!\textless Scale\textgreater px & 以百分比形式指定缩略图宽度，高度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
+!\textless Scale\textgreater px & 以百分比形式指定目标图片宽度，高度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} \\
 \hline
-!x\textless Scale\textgreater p & 以百分比形式指定缩略图高度，宽度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} & 不适用 \\
+!x\textless Scale\textgreater p & 以百分比形式指定目标图片高度，宽度等比缩放。取值范围0－1000 & \hyperref[imageMogr-thumbnail-75p]{示例\ref*{imageMogr-thumbnail-75p}} \\
 \hline
-\textless Width\textgreater x & 指定缩略图宽度，高度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} & \hyperref[imageMogr-crop-300x]{示例\ref*{imageMogr-crop-300x}} \\
+\textless Width\textgreater x & 指定目标图片宽度，高度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} \\
 \hline
-x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} & \hyperref[imageMogr-crop-x200]{示例\ref*{imageMogr-crop-x200}} \\
+x\textless Height\textgreater & 指定目标图片高度，宽度等比缩放。取值范围0－10000 & \hyperref[imageMogr-thumbnail-700px]{示例\ref*{imageMogr-thumbnail-700px}} \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater & 限定长边，短边自适应缩放，将缩略图限制在指定宽高矩形内。取值范围0－10000 & － & － \\
+\textless Width\textgreater x\textless Height\textgreater & 限定长边，短边自适应缩放，将目标图片限制在指定宽高矩形内。取值范围0－10000 & \hyperref[imageMogr-thumbnail-300x300]{示例\ref*{imageMogr-thumbnail-300x300}} \\
 \hline
-!\textless Width\textgreater x\textless Height\textgreater r & 限定短边，长边自适应缩放，缩略图会延伸至指定宽高矩形外。取值范围0－10000 & － & － \\
+!\textless Width\textgreater x\textless Height\textgreater r & 限定短边，长边自适应缩放，目标图片会延伸至指定宽高矩形外。取值范围0－10000 & \hyperref[imageMogr-thumbnail-200x200r]{示例\ref*{imageMogr-thumbnail-200x200r}} \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater ! & 限定缩略图宽高值，忽略原图宽高比例，按照指定宽高值强行缩略，可能导致缩略图变形。取值范围0－10000 & － & － \\
+\textless Width\textgreater x\textless Height\textgreater ! & 限定目标图片宽高值，忽略原图宽高比例，按照指定宽高值强行缩略，可能导致目标图片变形。取值范围0－10000 & \hyperref[imageMogr-thumbnail-200x300-force]{示例\ref*{imageMogr-thumbnail-200x300-force}} \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater \textgreater & 当原图尺寸大于给定的宽度或高度时，按照给定宽高值缩小。取值范围0－10000 & － & － \\
+\textless Width\textgreater x\textless Height\textgreater \textgreater & 当原图尺寸大于给定的宽度或高度时，按照给定宽高值缩小。取值范围0－10000 & \hyperref[imageMogr-thumbnail-200x300-greater]{示例\ref*{imageMogr-thumbnail-200x300-greater}} \\
 \hline
-\textless Width\textgreater x\textless Height\textgreater \textless & 当原图尺寸小于给定的宽度或高度时，按照给定宽高值放大。取值范围0－10000 & － & － \\
+\textless Width\textgreater x\textless Height\textgreater \textless & 当原图尺寸小于给定的宽度或高度时，按照给定宽高值放大。取值范围0－10000 &  \hyperref[imageMogr-thumbnail-700x600-less]{示例\ref*{imageMogr-thumbnail-700x600-less}} \\
 \hline
-\textless Area\textgreater @ & 按原图高宽比例等比缩放，缩放后的像素数量不超过指定值。取值范围0－10$^8$ & － & － \\
+\textless Area\textgreater @ & 按原图高宽比例等比缩放，缩放后的像素数量不超过指定值。取值范围0－10$^8$ & \hyperref[imageMogr-thumbnail-350000-at]{示例\ref*{imageMogr-thumbnail-350000-at}} \\
 \hline
 \end{tabular}
 }
@@ -335,6 +338,94 @@ x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取
 \end{sample}
 
 \begin{sample}
+  \caption{限定长边，生成不超过300x300的缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/300x300}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_300x300.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-300x300}
+\end{sample}
+
+\begin{sample}
+  \caption{限定短边，生成不小于200x200的缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!200x200r}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x200r.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-200x200r}
+\end{sample}
+
+\begin{sample}
+  \caption{强制生成200x300的缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/200x300!}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x300_force.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-200x300-force}
+\end{sample}
+
+\begin{sample}
+  \caption{原图大于指定长宽矩形，按长边自动缩小为200x133缩略图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/200x300>}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x300_greater.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-200x300-greater}
+\end{sample}
+
+\begin{sample}
+  \caption{原图小于指定长宽矩形，按长边自动拉伸为700x467放大图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/700x600<}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_700x600_less.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-700x600-less}
+\end{sample}
+
+\begin{sample}
+  \caption{生成图的像素总数小于指定值}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/350000@}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_350000_at.jpg}
+    \end{center}
+  \label{imageMogr-thumbnail-350000-at}
+\end{sample}
+
+\qpar{裁剪图规格说明表：}
+\qtable{
+\label{crop-spec}
+\begin{tabular}[t]{|l|p{22em}|p{5em}|}
+\hline
+规格 & 说明 & 示例 \\
+\hline
+\textless Width\textgreater x & 指定目标图片宽度，高度不变。取值范围0－10000 & \hyperref[imageMogr-crop-300x]{示例\ref*{imageMogr-crop-300x}} \\
+\hline
+x\textless Height\textgreater & 指定目标图片高度，宽度不变。取值范围0－10000 & \hyperref[imageMogr-crop-x200]{示例\ref*{imageMogr-crop-x200}} \\
+\hline
+\textless Width\textgreater x\textless Height\textgreater & 同时指定目标图片宽高。取值范围0－10000 & \hyperref[imageMogr-crop-300x300]{示例\ref*{imageMogr-crop-300x300}} \\
+\hline
+\end{tabular}
+}
+
+\begin{sample}
   \caption{生成300x427裁剪图}
     \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
     \qpar{$\Rightarrow$}
@@ -356,6 +447,18 @@ x\textless Height\textgreater & 指定缩略图高度，宽度等比缩放。取
       \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_x200.jpg}
     \end{center}
   \label{imageMogr-crop-x200}
+\end{sample}
+
+\begin{sample}
+  \caption{生成300x300裁剪图}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/300x300}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300.jpg}
+    \end{center}
+  \label{imageMogr-crop-300x300}
 \end{sample}
 
 \end{CJK*}
