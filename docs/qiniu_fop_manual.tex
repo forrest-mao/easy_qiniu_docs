@@ -2,6 +2,9 @@
 \usepackage{geometry}
 \geometry{a4paper}
 
+\usepackage{amsmath}
+\usepackage{xfrac}
+
 \usepackage{CJKutf8}
 
 \usepackage{graphicx}
@@ -120,7 +123,7 @@
 
 \section{生成缩略图}
 
-\qpar{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩略指示符，可以生成该图片的缩略图。}
+\qpar{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩略操作参数，可以生成该图片的缩略图。}
 \qpar{调用接口：}
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 <URL>?imageView/<Mode>/w/<Width>/h/<Height>/q/<Quality>/format/<Format>
@@ -245,11 +248,11 @@
 \hline
 /auto-orient & 根据原图EXIF信息自动旋正，便于后续处理 & 可选，建议放在首位 \\
 \hline
-/thumbnail/\textless ImageSize\textgreater & 参看\hyperref[thumbnail-spec]{缩略操作指示符说明表} & 可选，缺省为不缩略 \\
+/thumbnail/\textless ImageSize\textgreater & 参看\hyperref[thumbnail-spec]{缩略操作参数表} & 可选，缺省为不缩略 \\
 \hline
-/gravity/\textless GravityType\textgreater & 参看\hyperref[offset-anchor-spec]{裁剪图偏移锚点取值表}，只会影响其后的裁剪图偏移指示符 & 可选，缺省为左上角（NorthWest） \\
+/gravity/\textless GravityType\textgreater & 参看\hyperref[crop-anchor-spec]{裁剪锚点参数表}，只会影响其后的裁剪偏移参数 & 可选，缺省为左上角（NorthWest） \\
 \hline
-/crop/\textless ImageSizeAndOffset\textgreater & 参看\hyperref[crop-spec]{裁剪操作指示符说明表} & 可选，缺省为不裁剪 \\
+/crop/\textless ImageSizeAndOffset\textgreater & 参看\hyperref[crop-spec]{裁剪操作参数表} & 可选，缺省为不裁剪 \\
 \hline
 /quality/\textless Quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
 \hline
@@ -264,12 +267,12 @@
 
 \subsection{缩略}
 
-\qpar{缩略操作指示符说明表：}
+\qpar{缩略操作参数表：}
 \qtable{
 \label{thumbnail-spec}
 \begin{tabular}[t]{|l|p{18em}|p{4em}|}
 \hline
-指示符 & 说明 & 示例 \\
+参数名称 & 说明 & 示例 \\
 \hline
 /thumbnail/!\textless Scale\textgreater p & 基于原图大小，按指定百分比缩放。取值范围0－1000 & \qsample{imageMogr-thumbnail-75p} \\
 \hline
@@ -402,12 +405,12 @@
 
 \subsection{裁剪}
 
-\qpar{裁剪操作指示符说明表：}
+\qpar{裁剪操作参数表：}
 \qtable{
 \label{crop-spec}
 \begin{tabular}[t]{|l|p{20em}|p{4em}|}
 \hline
-指示符 & 说明 & 示例 \\
+参数名称 & 说明 & 示例 \\
 \hline
 /crop/\textless Width\textgreater x & 指定目标图片宽度，高度不变。取值范围0－10000 & \qsample{imageMogr-crop-300x} \\
 \hline
@@ -454,12 +457,12 @@
   \label{imageMogr-crop-300x300}
 \end{sample}
 
-\qpar{裁剪图偏移锚点说明表：}
+\qpar{裁剪偏移参数表：}
 \qtable{
-\label{offset-anchor-spec}
+\label{crop-offset-spec}
 \begin{tabular}[t]{|l|p{18em}|p{4em}|}
 \hline
-指示符 & 说明 & 示例 \\
+参数名称 & 说明 & 示例 \\
 \hline
 /crop/!\{size\}a\textless X-offset\textgreater a\textless Y-offset\textgreater & 相对于偏移锚点，向右偏移\textless X-offset\textgreater 个像素，同时向下偏移\textless Y-offset\textgreater 个像素，取值范围0－1000 & \qsample{imageMogr-crop-300x300-a30a100} \\
 \hline
@@ -477,9 +480,9 @@
 
 \clearpage
 
-\qpar{偏移锚点取值表（不区分大小写）：}
+\qpar{裁剪锚点参数表（不区分大小写）：}
 \qtable{
-\label{offset-anchor-spec-2}
+\label{crop-anchor-spec}
 \begin{tabular}[t]{|l|c|r|}
 \hline
 \parbox[t][6em]{6em}{NorthWest \\ \qsample{imageMogr-crop-northwest}} & \parbox[t][6em]{6em}{\makebox[6em][c]{North} \\ \makebox[6em][c]{\qsample{imageMogr-crop-north}}} & \parbox[t][6em]{6em}{\makebox[6em][r]{NorthEast} \\ \makebox[6em][r]{\qsample{imageMogr-crop-northeast}}} \\
@@ -694,12 +697,89 @@
   \label{imageMogr-crop-thumbnail-200x200}
 \end{sample}
 
-%\clearpage
-%
-%\section{生成水印}
-%
-%\qpar{待续……}
-%
+\clearpage
+
+\section{添加水印}
+
+\qpar{七牛云处理服务支持添加图片水印或文字水印，使用方法为在下载URL后添加\qqbox{watermark}指示符（区分大小写）并附加相关参数。}
+\qpar{图片水印调用接口：}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+<URL>?watermark/1
+               /image/<EncodedImageURL>
+               /dissolve/<Dissolve>
+               /gravity/<Gravity>
+               /dx/<DistanceX>
+               /dy/<DistanceY>
+\end{lstlisting}
+\qpar{文字水印调用接口：}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+<URL>?watermark/2
+               /text/<EncodedText>
+               /font/<EncodedFontName>
+               /fontsize/<FontSize>
+               /fill/<EncodedTextColor>
+               /dissolve/<Dissolve>
+               /gravity/<Gravity>
+               /dx/<DistanceX>
+               /dy/<DistanceY>
+\end{lstlisting}
+
+\qpar{水印操作参数说明表：}
+\qtable{
+\begin{tabular}[t]{|l|p{12em}|p{10em}|}
+\hline
+参数名称 & 说明 & 示例 \\
+\hline
+/image/\textless EncodedImageURL\textgreater & 水印源图片，必须为有效网址 & 需\href{http://zh.wikipedia.org/zh-cn/Base64}{Base64编码} \\
+\hline
+/text/\textless EncodedText\textgreater & 水印文字 & 需Base64编码 \\
+\hline
+/font/\textless EncodedFontName\textgreater & 水印文字字体 & 需Base64编码，使用非英文文字时必填 \\
+\hline
+/fontsize/\textless FontSize\textgreater & 水印文字字号，单位: 缇（\href{http://en.wikipedia.org/wiki/Twip}{Twip}），等于$\sfrac{1}{20}$磅（pt） & 可选，缺省为0（默认字号） \\
+\hline
+/fill/\textless EncodedTextColor\textgreater & 水印文字颜色，遵循RGB色彩模型，可为颜色名称或\#RRGGBB格式（十六进制），参考\href{http://www.rapidtables.com/web/color/RGB_Color.htm}{RGB颜色编码表} & 需Base64编码 \\
+\hline
+/dissolve/\textless Dissolve\textgreater & 透明度，取值范围1－100 & 可选，缺省值为100（完全不透明） \\
+\hline
+/gravity/\textless Gravity\textgreater & 水印位置，参考水印位置参数表 & 可选，缺省为右下角（SouthEast） \\
+\hline
+/dx/\textless DistanceX\textgreater & 横轴边距，单位：像素（px） & 可选，缺省值为10 \\
+\hline
+/dy/\textless DistanceY\textgreater & 纵轴边距，单位：像素（px） & 可选，缺省值为10 \\
+\hline
+\end{tabular}
+}
+
+\begin{sample}
+  \caption{图片水印}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?watermark/1/image/aHR0cDovL3d3dy5iMS5xaW5pdWRuLmNvbS9pbWFnZXMvbG9nby0yLnBuZw==}}
+
+    \begin{center}
+      \includegraphics[scale=0.69]{../pics/watermark_pic.jpg}
+    \end{center}
+\end{sample}
+
+\begin{sample}
+  \caption{文字水印}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg}}
+    \qpar{$\Rightarrow$}
+    \qpar{\qurl{http://qiniuphotos.qiniudn.com/gogopher.jpg?watermark/2/text/5LiD54mb5LqR5a2Y5YKo/font/U2ltSGVp/fontsize/600/fill/Izc0RDJGRg==/gravity/North}}
+
+    \begin{verbatim}
+字体：SimHei
+字号：600Twips (30pt)
+颜色：#74D2FF
+位置：正上方
+    \end{verbatim}
+
+    \begin{center}
+      \includegraphics[scale=0.69]{../pics/watermark_text.jpg}
+    \end{center}
+\end{sample}
+
 %\section{图片预转}
 %
 %\qpar{待续……}
