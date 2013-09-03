@@ -78,7 +78,7 @@
 \subsection{基本信息}
 
 \qpara{在图片下载URL后附加\qqbox{imageInfo}指示符（区分大小写），可以获取JSON格式的图片基本信息，包括图片格式、宽高值（单位：像素）、色彩模型。}
-\qpara{\textcolor{red}{注意：缩略图不支持该方法。}}
+\qpara{\textcolor{red}{注意：缩略图等经过云处理的新图片不支持该方法。}}
 
 \begin{sample}
   \caption{获取图片基本信息}
@@ -108,7 +108,7 @@
 \qpara{EXIF（EXchangeable Image File Format），是专门为数码相机的照片设定的可交换图像文件格式，
 详见\href{http://zh.wikipedia.org/wiki/EXIF}{维基百科}。}
 \qpara{获取方式为在图片下载URL后附加\qqbox{exif}指示符（区分大小写）。}
-\qpara{\textcolor{red}{注意：缩略图不支持该方法。}}
+\qpara{\textcolor{red}{注意：缩略图等经过云处理的新图片不支持该方法。}}
 
 \begin{sample}
   \caption{获取图片EXIF信息}
@@ -154,10 +154,10 @@
 
 \clearpage
 
-\section{生成缩略图}
+\section{生成缩放图}
 
-\qpara{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩略操作参数，可以生成该图片的缩略图。}
-\qpara{调用接口：}
+\qpara{在图片下载URL后附加\qqbox{imageView}指示符（区分大小写）并指定缩放操作参数，可以生成该图片的缩放图。}
+\qpara{■\ 调用接口：}
 \begin{lstlisting}
 <URL>?imageView/<Mode>/w/<Width>/h/<Height>/q/<Quality>/format/<Format>
 \end{lstlisting}
@@ -168,18 +168,18 @@
 %          |       |        |         |           |            |
 % 指示符 --+       |        |         |           |            |
 %                  |        |         |           |            |
-% 缩略模式 --------+        |         |           |            |
+% 缩放模式 --------+        |         |           |            |
 %                           |         |           |            |
-% 缩略宽度（像素） ---------+         |           |            |
+% 缩放宽度（像素） ---------+         |           |            |
 %                                     |           |            |
-% 缩略高度（像素） -------------------+           |            |
+% 缩放高度（像素） -------------------+           |            |
 %                                                 |            |
-% 缩略质量（取值1-100） --------------------------+            |
+% 缩放质量（取值1-100） --------------------------+            |
 %                                                              |
 % 图片格式（支持jpg、gif、webp等） ----------------------------+
 %\end{lstlisting}
 
-\qpara{参数说明：}
+\qpara{■\ 参数说明：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|l|l|}
@@ -188,9 +188,9 @@
 \hline
 /\textless Mode\textgreater & 处理模式 & \\
 \hline
-/w/\textless Width\textgreater & 缩略宽度，单位：像素（px） & \\
+/w/\textless Width\textgreater & 缩放宽度，单位：像素（px） & \\
 \hline
-/h/\textless Height\textgreater & 缩略高度，单位：像素（px） & \\
+/h/\textless Height\textgreater & 缩放高度，单位：像素（px） & \\
 \hline
 /q/\textless Quality\textgreater & 图片质量，取值范围1－100 & 可选，缺省为85 \\
 \hline
@@ -199,14 +199,14 @@
 \end{tabular}
 }
 
-\qpara{其中\textless mode\textgreater 分为如下4种情况：}
+\qpara{■\ \textless mode\textgreater 分为如下4种情况：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|p{20em}|p{5em}|}
 \hline
 模式 & 说明 & 备注 \\
 \hline
-/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，等比裁剪原图正中部分并缩小为\textless width\textgreater x\textless height\textgreater 大小的缩略图。& \qsample{imageView-1-200x200} \\
+/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，等比裁剪原图正中部分并缩放为\textless width\textgreater x\textless height\textgreater 大小的新图片。& \qsample{imageView-1-200x200} \\
 \hline
 /2/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& \qsample{imageView-2-200x200} \\
 \hline
@@ -260,8 +260,8 @@
 
 \section{高级图片处理}
 
-\qpara{除了能方便地生成缩略图外，七牛云处理服务还提供其它高级图片处理功能，包括缩略、裁剪、旋转等等。}
-\qpara{调用接口：}
+\qpara{除了能简便地生成缩放图外，七牛云处理服务还提供其它高级图片处理功能，包括缩放、裁剪、旋转等等。}
+\qpara{■\ 调用接口：}
 \begin{lstlisting}
 <URL>?imageMogr/v2/auto-orient
                   /thumbnail/<ImageSize>
@@ -272,7 +272,7 @@
                   /format/<Format>
 \end{lstlisting}
 
-\qpara{参数说明：}
+\qpara{■\ 参数说明：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|p{13em}|p{10em}|}
@@ -281,7 +281,7 @@
 \hline
 /auto-orient & 根据原图EXIF信息自动旋正，便于后续处理 & 可选，建议放在首位 \\
 \hline
-/thumbnail/\textless ImageSize\textgreater & 参看\hyperref[thumbnail-spec]{缩略操作参数表} & 可选，缺省为不缩略 \\
+/thumbnail/\textless ImageSize\textgreater & 参看\hyperref[thumbnail-spec]{缩放操作参数表} & 可选，缺省为不缩放 \\
 \hline
 /gravity/\textless GravityType\textgreater & 参看\hyperref[crop-anchor-spec]{裁剪锚点参数表}，只会影响其后的裁剪偏移参数 & 可选，缺省为左上角（NorthWest） \\
 \hline
@@ -298,9 +298,9 @@
 
 \clearpage
 
-\subsection{缩略}
+\subsection{缩放}
 
-\qpara{缩略操作参数表：}
+\qpara{■\ 缩放操作参数表：}
 \qtable{
 \label{thumbnail-spec}
 \begin{tabular}[t]{|l|p{18em}|p{5em}|}
@@ -440,7 +440,7 @@
 
 \subsection{裁剪}
 
-\qpara{裁剪操作参数表：}
+\qpara{■\ 裁剪操作参数表：}
 \qtable{
 \label{crop-spec}
 \begin{tabular}[t]{|l|p{20em}|p{5em}|}
@@ -494,7 +494,7 @@
 
 \clearpage
 
-\qpara{裁剪偏移参数表：}
+\qpara{■\ 裁剪偏移参数表：}
 \qtable{
 \label{crop-offset-spec}
 \begin{tabular}[t]{|l|p{16em}|p{5em}|}
@@ -515,7 +515,7 @@
 \qpara{\textcolor{red}{注意1：必须同时指定横轴偏移和纵轴偏移。}}
 \qpara{\textcolor{red}{注意2：计算偏移值会受到位置偏移指示符（/gravity/\textless GravityType\textgreater）影响。}默认为相对于左上角计算偏移值（即NorthWest），参看下表。}
 
-\qpara{裁剪锚点参数表（不区分大小写）：}
+\qpara{■\ 裁剪锚点参数表（不区分大小写）：}
 \qtable{
 \label{crop-anchor-spec}
 \begin{tabular}[t]{|l|c|r|}
@@ -578,7 +578,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在左上角（NorthWest），生成300x300缩略图}
+  \caption{锚点在左上角（NorthWest），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/NorthWest/crop/300x300}}
@@ -590,7 +590,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在正上方（North），生成300x300缩略图}
+  \caption{锚点在正上方（North），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/North/crop/300x300}}
@@ -602,7 +602,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在右上角（NorthEast），生成300x300缩略图}
+  \caption{锚点在右上角（NorthEast），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/NorthEast/crop/300x300}}
@@ -614,7 +614,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在正左方（West），生成300x300缩略图}
+  \caption{锚点在正左方（West），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/West/crop/300x300}}
@@ -626,7 +626,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在正中（Center），生成300x300缩略图}
+  \caption{锚点在正中（Center），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/Center/crop/300x300}}
@@ -638,7 +638,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在正右方（East），生成300x300缩略图}
+  \caption{锚点在正右方（East），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/East/crop/300x300}}
@@ -650,7 +650,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在左下角（SouthWest），生成300x300缩略图}
+  \caption{锚点在左下角（SouthWest），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/SouthWest/crop/300x300}}
@@ -662,7 +662,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在正下方（South），生成300x300缩略图}
+  \caption{锚点在正下方（South），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/South/crop/300x300}}
@@ -674,7 +674,7 @@
 \end{sample}
 
 \begin{sample}
-  \caption{锚点在右下角（SouthEast），生成300x300缩略图}
+  \caption{锚点在右下角（SouthEast），生成300x300裁剪图}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
     \qsym{$\Rightarrow$}
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/SouthEast/crop/300x300}}
@@ -737,7 +737,7 @@
 \section{添加水印}
 
 \qpara{七牛云处理服务支持添加图片水印或文字水印，使用方法为在下载URL后添加\qqbox{watermark}指示符（区分大小写）并附加相关参数。}
-\qpara{图片水印调用接口：}
+\qpara{■\ 图片水印调用接口：}
 \begin{lstlisting}
 <URL>?watermark/1
                /image/<EncodedImageURL>
@@ -746,7 +746,7 @@
                /dx/<DistanceX>
                /dy/<DistanceY>
 \end{lstlisting}
-\qpara{文字水印调用接口：}
+\qpara{■\ 文字水印调用接口：}
 \begin{lstlisting}
 <URL>?watermark/2
                /text/<EncodedText>
@@ -759,7 +759,7 @@
                /dy/<DistanceY>
 \end{lstlisting}
 
-\qpara{水印操作参数说明表：}
+\qpara{■\ 水印操作参数说明表：}
 \qtable{
 \begin{tabular}[t]{|l|p{14em}|p{10em}|}
 \hline
@@ -821,7 +821,7 @@
 \qpara{每个资源空间（Bucket）可以设定多个别名和分隔符，以提供灵活的使用方式。}
 \qpara{七牛\href{https://portal.qiniu.com}{开发者后台}或\href{http://docs.qiniu.com/tools/v6/qboxrsctl.html}{开发者工具（qboxrsctl）}来都可以定制别名。前文描述的各种处理均支持使用别名。}
 
-\qpara{调用接口：}
+\qpara{■\ 调用接口：}
 \begin{lstlisting}
 http://<Domain>/<Key><Separator><Alias>
        |______| |___||_________||_____|
