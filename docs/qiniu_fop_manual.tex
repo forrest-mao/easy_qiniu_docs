@@ -149,6 +149,8 @@
    ......
 }
 \end{lstlisting}
+
+    \qpara{HTTP请求/响应：\qsample{exif-http}}
   \label{exif}
 \end{sample}
 
@@ -182,7 +184,7 @@
 \qpara{■\ 参数说明：}
 \qtable{
 \def\arraystretch{2}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|p{10.35em}|}
 \hline
 名称 & 说明 & 备注\\
 \hline
@@ -206,7 +208,7 @@
 \hline
 模式 & 说明 & 备注 \\
 \hline
-/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，等比裁剪原图正中部分并缩放为\textless width\textgreater x\textless height\textgreater 大小的新图片。& \qsample{imageView-1-200x200} \\
+/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，等比裁剪原图正中部分并缩放为\textless width\textgreater x\textless height\textgreater 大小的新图片。& \qsample{imageView-1-200x200} \newline \qsample{imageView-1-500x500} \\
 \hline
 /2/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& \qsample{imageView-2-200x200} \\
 \hline
@@ -228,7 +230,21 @@
     \begin{center}
       \includegraphics[scale=0.65]{../pics/gogopher_imageView_1_200x200.jpg}
     \end{center}
+
+    \qpara{HTTP请求/响应：\qsample{imageView-1-200x200-http}}
   \label{imageView-1-200x200}
+\end{sample}
+
+\begin{sample}
+  \caption{裁剪正中部分，等比放大生成500x500放大图}
+    \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg}}
+    \qsym{$\Rightarrow$}
+    \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageView/1/w/200/h/200}}
+
+    \begin{center}
+      \includegraphics[scale=0.65]{../pics/gogopher_imageView_1_500x500.jpg}
+    \end{center}
+  \label{imageView-1-500x500}
 \end{sample}
 
 \begin{sample}
@@ -883,5 +899,68 @@ http://newdocs.qiniudn.com/gogopher.jpg-small.jpg
   \item 图片处理结果是否计入存储用量？\par
   \qhint{图片处理结果将被缓存，不计入存储用量中。}
 \end{itemize}
+
+\chapter{HTTP请求/响应示例}
+
+\begin{sample}
+  \caption{获取图片EXIF信息}
+
+    \qhint{请求：}
+\begin{lstlisting}
+GET /gogopher.jpg?exif HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) ...
+Host: newdocs.qiniudn.com
+Accept: */*
+\end{lstlisting}
+
+    \qhint{响应：}
+\begin{lstlisting}
+HTTP/1.1 200 OK
+Date: Tue, 03 Sep 2013 06:33:09 GMT
+Server: nginx/1.0.8
+Content-Type: application/json; charset=UTF-8
+Access-Control-Allow-Origin: *
+Cache-Control: public, max-age=31536000
+Content-Length: 1696
+ETag: "ADXAsBYWsLRU6v5uLpUBnbFRn282"
+Age: 1
+Connection: keep-alive
+X-Log: MC;IO:3
+X-Reqid: y2EAAAjWnUV-UCAT
+X-Via: 1.1 jszjsx49:88 (Cdn Cache Server V2.0), ...
+\end{lstlisting}
+
+  \label{exif-http}
+\end{sample}
+
+\begin{sample}
+  \caption{裁剪正中部分，等比缩小生成200x200缩略图}
+
+    \qhint{请求：}
+\begin{lstlisting}
+GET /gogopher.jpg?imageView/1/w/200/h/200 HTTP/1.1
+User-Agent: curl/7.21.4 (universal-apple-darwin11.0) ...
+Host: newdocs.qiniudn.com
+Accept: */*
+\end{lstlisting}
+
+    \qhint{响应：}
+\begin{lstlisting}
+HTTP/1.1 200 OK
+Date: Tue, 03 Sep 2013 06:50:32 GMT
+Server: nginx/1.0.8
+Content-Type: image/jpeg
+Access-Control-Allow-Origin: *
+Cache-Control: public, max-age=31536000
+Content-Length: 17355
+ETag: "AKRWkBUXXHUJzSj3Na0gJfn7rL6m"
+Connection: keep-alive
+X-Log: MC;IO:2
+X-Reqid: R2sAAEg5eC5xUSAT
+X-Via: 1.1 jszjsx49:88 (Cdn Cache Server V2.0), ...
+\end{lstlisting}
+
+  \label{imageView-1-200x200-http}
+\end{sample}
 
 \end{document}
