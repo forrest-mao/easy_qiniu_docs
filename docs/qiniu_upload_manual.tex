@@ -62,7 +62,7 @@
 
 \setlength{\textheight}{680pt}
 
-\title{七牛上传指南}
+\title{七牛传输服务指南}
 \author{梁涛 \\ @七牛云存储}
 \date{2013-09-10}
 
@@ -73,36 +73,32 @@
 
 \chapter{术语}
 
-\section{七牛云}
 
-\qpara{所有对外放开的七牛服务及相关系统的统称，含云存储、云处理和云加速三大子系统。}
-\qpara{本文通篇使用“七牛云”指代“七牛云存储子系统”这一实体。}
+\begin{itemize}
+\item {\bf 资源}\par
+\qhint{存入七牛云的数据体的统称，在有限前提下可与“文件”互换。}
 
-\section{业务服务器}
+\item {\bf 七牛云}\par
+\qhint{所有对外放开的七牛服务及相关系统的统称，含云存储、云处理和云加速三大子系统。}
+\qhint{本文通篇使用“七牛云”指代“七牛云存储子系统”这一实体。}
 
-\qpara{七牛用户自建的、用于运行业务逻辑的服务器实体。}
+\item {\bf 业务服务器}\par
+\qhint{七牛用户自建的、用于运行业务逻辑的服务器实体。}
 
-\section{业务客户端/终端}
+\item {\bf 业务客户端}\par
+\qhint{七牛用户的用户（即最终用户）、用于运行交互逻辑的客户端实体。}
 
-\qpara{七牛用户的用户（即最终用户）、用于运行交互逻辑的客户端实体。}
+\item {\bf 高速线路}\par
+\qhint{机房（或IDC）之间使用的通信线路，具有低延迟（20～50毫秒）、极低丢包率、中间路由少或转发效率高、上下行带宽对等等特点。}
+\qhint{注意：高速通信线路可能跨越不同运营商的异构网络。}
 
-\section{高质量线路}
+\item {\bf 低速线路}\par
+\qhint{机房（或IDC）与业务客户端之间使用的通信线路，具有中等延迟（50～100毫秒）、低丢包率、偶发故障、偶发线路切换、上下行带宽不对等等特点。}
 
-\qpara{机房（或IDC）之间使用的通信线路，具有低延迟（20～50毫秒）、极低丢包率、中间路由少或转发效率高、上下行带宽对等等特点。}
-\qpara{注意：高速通信线路可能跨越不同运营商的异构网络。}
-
-\section{低质量线路}
-
-\qpara{机房（或IDC）与业务终端之间使用的通信线路，具有中等延迟（50～100毫秒）、低丢包率、偶发故障、偶发线路切换、上下行带宽不对等等特点。}
-
-\section{终端接入环境}
-
-\qpara{业务终端接入互联网的环境，常见的有LAN（局域网）、WLAN/Wi-Fi（无线局域网）、2G/3G（移动网）等。}
-\qpara{注意：接入环境会随着终端物理位置随时发生改变，如离开房屋导致从Wi-Fi环境切换到3G环境，跨越3G信号塔覆盖区域导致在不同的接入基站之间切换。}
-
-\section{资源}
-
-\qpara{存入七牛云的数据体的统称，在有限前提下可与“文件”互换。}
+\item {\bf 客户端接入环境}\par
+\qhint{业务客户端接入互联网的环境，常见的有LAN（局域网）、WLAN/Wi-Fi（无线局域网）、2G/3G（移动网）等。}
+\qhint{注意：接入环境会随着客户端物理位置随时发生改变，如离开房屋导致从Wi-Fi环境切换到3G环境，跨越3G信号塔覆盖区域导致在不同的接入基站之间切换。}
+\end{itemize}
 
 \chapter{上传方式}
 
@@ -110,10 +106,12 @@
 
 \qpara{直传是最简单、最直观的上传方式，通过将单一资源封装在一次HTTP请求中传输至七牛云。}
 \qpara{■\thinspace 优点：传输模型简单、API单一，同步操作。}
-\qpara{■\thinspace 缺点：对大型资源不友好，失败概率与资源大小成正比，纠错成本高（只能重传）。}
+\qpara{■\thinspace 缺点：对大型资源不友好，失败概率与资源大小成正比，纠错成本高（只能重传整个资源）。}
 \qpara{■\thinspace 适用场景：大小固定的微型/小型资源上传、服务器之间资源传输。}
 
-\includegraphics[scale=2.7]{../pics/upload/one_put.jpg}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/one_put.png}
+\end{center}
 
 \section{断点续上传}
 
@@ -123,50 +121,59 @@
 \qpara{■\thinspace 缺点：传输模型复杂、API多，异步操作。}
 \qpara{■\thinspace 适用场景：大小固定的中型/大型资源上传，弱信号通信线路的上传，频繁切换接入点/线路的上传。}
 
-\subsection{串行传输}
+\subsection{串行传输（Block）}
 
 \qpara{断点续上传的串行传输与单一资源的直传类似，只是传输单元更小、纠错成本更小。相对地，多次HTTP请求会带来传输成本的上升。}
 \qpara{■\thinspace 适用场景：出口（上行）带宽较小的环境，如家用ADSL接入线路。}
 
-\includegraphics[scale=2.7]{../pics/upload/one_rput.jpg}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/one_rput.png}
+\end{center}
 
-\qpara{虚线框：成功上传的数据范围。 \\ 实线框：可以读取的数据范围。}
+\qpara{虚线框：上传成功的数据范围。 \\ 实线框：可以读取的数据范围。}
 
-\subsection{并发传输}
+\subsection{并发传输（Block）}
 
-\qpara{断点续上传的并发传输与多资源的并发真传类似，但可以加快大型资源的传输速度。}
+\qpara{断点续上传的并发传输与多资源的并发直传类似，用于加快单一大型资源的传输速度。}
 \qpara{■\thinspace 适用场景：出口（上行）带宽较大的环境，如商业专用接入线路。}
 
-\includegraphics[scale=2.7]{../pics/upload/one_rputl.jpg}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/one_rputl.png}
+\end{center}
 
 \subsection{细粒度传输（Chunk）}
 
-\qpara{断点续上传的细粒度传输构建在对数据块的进一步切分之上，也即将数据块（Block）切分为非固定大小的数据片（称为Chunk，小于4MB），更灵活地贴合传输环境的限制，甚至智能调整传输速率以提供更好的用户体验。每个数据片封装成一个HTTP请求，过小的数据片将带来额外的传输成本。}
+\qpara{断点续上传的细粒度传输构建在对数据块的进一步切分之上，也即将数据块（Block）切分为非固定大小的数据片（称为Chunk，小于4MB），更灵活地贴合传输环境的限制，甚至智能调整传输速率以提供更好的用户体验。}
+\qpara{每个数据片封装成一个HTTP请求，过小的数据片将带来额外的传输成本。另外数据片不能并发上传。}
 \qpara{■\thinspace 适用场景：频繁切换接入点的环境，如地铁等信号弱、频繁重新接入网络的封闭空间。}
 
-\includegraphics[scale=2.7]{../pics/upload/one_rput_chunk.jpg}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/one_rput_chunk.png}
+\end{center}
 
 \section{追加上传（Append）}
 
-\qpara{类似于操作系统打开文件时使用的Append参数，七牛云也提供相应语义的追加上传方式。}
-\qpara{本方式同样采用切分数据、逐一上传的思路，但与断点续上传不同的是a）只切分成数据片（Chunk），b）每个数据片上传后即可立刻读取 。}
-\qpara{■\thinspace 优点：对资源的最终大小无限制，可以实现流式传输。}
-\qpara{■\thinspace 缺点：传输模型复杂，异步操作。}
-\qpara{■\thinspace 适用场景：流式资源的上传，如监控音/视频流、直播视频流存储，长度无限制的日志。}
+\qpara{类似于操作系统打开文件时使用的Append参数，七牛云也提供相应语义的追加上传方式，在已保存文件的尾部追加数据。}
+\qpara{本方式同样采用切分数据、逐一上传的思路，但与断点续上传不同的是a）只切分成非固定大小的数据片（Chunk），b）每个数据片上传后即可立刻读取 。}
+\qpara{■\thinspace 优点：资源大小无限制，支持流式传输，支持即写即读。}
+\qpara{■\thinspace 缺点：传输模型复杂，异步操作，不支持并发上传。}
+\qpara{■\thinspace 适用场景：流式资源的上传，如监控音频/视频流、直播视频流存储，无长度限制的日志。}
 
-\includegraphics[scale=2.7]{../pics/upload/one_append.jpg}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/one_append.png}
+\end{center}
 
-\qpara{实线框：成功上传/可以读取的数据范围。}
+\qpara{实线框：上传成功/可以读取的数据范围。}
 
-\chapter{业务模型}
-
-\qpara{待续……}
-
-\chapter{授权}
+\chapter{上传业务模型}
 
 \qpara{待续……}
 
-\chapter{API}
+\chapter{上传授权}
+
+\qpara{待续……}
+
+\chapter{上传API}
 
 \qpara{待续……}
 
