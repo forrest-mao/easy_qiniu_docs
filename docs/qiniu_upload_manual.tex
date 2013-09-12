@@ -105,7 +105,7 @@
 \section{直传}
 
 \qpara{直传是最简单、最直观的上传方式，通过将单一资源封装在一次HTTP请求中传输至七牛云。}
-\qpara{■\thinspace 优点：传输模型简单、API单一，同步操作。}
+\qpara{■\thinspace 优点：传输模型简单，API单一。}
 \qpara{■\thinspace 缺点：对大型资源不友好，失败概率与资源大小成正比，纠错成本高（只能重传整个资源）。}
 \qpara{■\thinspace 适用场景：大小固定的微型/小型资源上传、服务器之间资源传输。}
 
@@ -118,7 +118,7 @@
 \qpara{通过将资源切分为固定大小的数据块（称为Block，4MB大小），封装在多次HTTP请求中逐一传输至七牛云。}
 \qpara{可根据实际需求灵活地调整为串行传输或并发传输。}
 \qpara{■\thinspace 优点：对大型资源友好，纠错成本小（只重传失败的数据块）。}
-\qpara{■\thinspace 缺点：传输模型复杂、API多，异步操作。}
+\qpara{■\thinspace 缺点：传输模型复杂，API多。}
 \qpara{■\thinspace 适用场景：大小固定的中型/大型资源上传，弱信号通信线路的上传，频繁切换接入点/线路的上传。}
 
 \subsection{串行传输（Block）}
@@ -156,7 +156,7 @@
 \qpara{类似于操作系统打开文件时使用的Append参数，七牛云也提供相应语义的追加上传方式，在已保存文件的尾部追加数据。}
 \qpara{本方式同样采用切分数据、逐一上传的思路，但与断点续上传不同的是a）只切分成非固定大小的数据片（Chunk），b）每个数据片上传后即可立刻读取 。}
 \qpara{■\thinspace 优点：资源大小无限制，支持流式传输，支持即写即读。}
-\qpara{■\thinspace 缺点：传输模型复杂，异步操作，不支持并发上传。}
+\qpara{■\thinspace 缺点：传输模型复杂，不支持并发上传。}
 \qpara{■\thinspace 适用场景：流式资源的上传，如监控音频/视频流、直播视频流存储，无长度限制的日志。}
 
 \begin{center}
@@ -165,9 +165,46 @@
 
 \qpara{实线框：上传成功/可以读取的数据范围。}
 
-\chapter{上传业务模型}
+\section{特性一览表}
 
-\qpara{待续……}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{10em}|p{10em}|p{10em}|}
+\hline
+特性 & 直传 & 断点续上传 & 追加上传 \\
+\hline
+API数量 & 1 & 3 & 3 \\
+\hline
+单次上传数据量 & 最大500MB & 最大4MB & 最大500MB \\
+\hline
+单个资源数据量 & 最大500MB & 无限制 & 无限制 \\
+\hline
+数据块并发上传 & ${\texttimes}$ & ${\surd}$ & ${\texttimes}$ \\
+\hline
+即传即读 & ${\texttimes}$ & ${\texttimes}$ & ${\surd}$ \\
+\hline
+\end{tabular}
+}
+
+\chapter{上传业务场景}
+
+\section{本地上传}
+
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/local_upload_direct.png}
+\end{center}
+
+\section{客户端通知上传}
+
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/ugc_upload_direct.png}
+\end{center}
+
+\section{七牛云通知上传}
+
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/ugc_upload_callback.png}
+\end{center}
 
 \chapter{上传授权}
 
