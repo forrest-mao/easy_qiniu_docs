@@ -62,7 +62,7 @@
 
 \setlength{\textheight}{680pt}
 
-\title{七牛传输服务指南}
+\title{七牛上传服务指南}
 \author{梁涛 \\ @七牛云存储}
 \date{2013-09-10}
 
@@ -113,7 +113,7 @@
 \includegraphics[scale=1]{../pics/upload/one_put.png}
 \end{center}
 
-\section{断点续上传}
+\section{断点续上传（Block）}
 
 \qpara{通过将资源切分为固定大小的数据块（称为Block，4MB大小），封装在多次HTTP请求中逐一传输至七牛云。}
 \qpara{可根据实际需求灵活地调整为串行传输或并发传输。}
@@ -121,7 +121,7 @@
 \qpara{■\thinspace 缺点：传输模型复杂，API多。}
 \qpara{■\thinspace 适用场景：大小固定的中型/大型资源上传，弱信号通信线路的上传，频繁切换接入点/线路的上传。}
 
-\subsection{串行传输（Block）}
+\subsection{串行传输}
 
 \qpara{断点续上传的串行传输与单一资源的直传类似，只是传输单元更小、纠错成本更小。相对地，多次HTTP请求会带来传输成本的上升。}
 \qpara{■\thinspace 适用场景：出口（上行）带宽较小的环境，如家用ADSL接入线路。}
@@ -132,7 +132,7 @@
 
 \qpara{虚线框：上传成功的数据范围。 \\ 实线框：可以读取的数据范围。}
 
-\subsection{并发传输（Block）}
+\subsection{并发传输}
 
 \qpara{断点续上传的并发传输与多资源的并发直传类似，用于加快单一大型资源的传输速度。}
 \qpara{■\thinspace 适用场景：出口（上行）带宽较大的环境，如商业专用接入线路。}
@@ -186,31 +186,101 @@ API数量 & 1 & 3 & 3 \\
 \end{tabular}
 }
 
-\chapter{上传业务场景}
+\chapter{上传业务模型}
 
-\section{本地上传}
+\qpara{七牛云存储提供多种上传业务模型，以满足不同业务场景的需求。用户可根据实际情况择优选用，使用七牛官方SDK开发上传模块或工具，或直接使用七牛官方上传工具。}
+
+\section{本地上传模型}
+
+\qpara{该模型适用于上传存储在本地计算机或服务器的资源。}
+\qpara{■\thinspace 适用场景：资源直传、大批量迁移、定期备份。}
+\qpara{■\thinspace 参与实体：七牛云、本地资源存储机。}
 
 \begin{center}
 \includegraphics[scale=1]{../pics/upload/local_upload_direct.png}
 \end{center}
 
-\section{客户端通知上传}
+\section{客户端通知上传模型}
+
+\qpara{该模型适用于上传第三方产生的资源，并由第三方将上传结果通知给业务服务器。}
+\qpara{■\thinspace 适用场景：用户产生内容（UGC）。}
+\qpara{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
+\qpara{■\thinspace 潜在问题：1）上传过程与通知过程是分离的，任一过程失败都将导致业务状态不一致；2）上传过程与通知过程都可能走低速线路，带来不必要的延迟。}
 
 \begin{center}
 \includegraphics[scale=1]{../pics/upload/ugc_upload_direct.png}
 \end{center}
 
-\section{七牛云通知上传}
+\section{七牛云通知上传模型}
+
+\qpara{该模型同样适用于上传第三方产生的资源，只是改由七牛云将上传结果通知给业务服务器，并把最终结果返回给第三方。}
+\qpara{■\thinspace 适用场景：用户产生内容（UGC）。}
+\qpara{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
 
 \begin{center}
 \includegraphics[scale=1]{../pics/upload/ugc_upload_callback.png}
 \end{center}
 
-\chapter{上传授权}
+\chapter{上传授权凭证}
+
+\qpara{为防止恶意上传垃圾资源（消耗存储空间，引发额外计费），或篡改/损坏/伪造资源，每个上传请求都需要随附一份上传授权凭证（uploadToken），用于验证上传者与上传请求的合法性。同时，还可以在该凭证内指定一些用于微调上传操作的参数。}
+\qpara{上传授权凭证主要由业务服务器签发，避免签名用的密钥泄露。}
+
+\section{数据格式}
+
+\qpara{上传授权凭证使用JSON格式组织参数。}
+
+\begin{lstlisting}
+{
+    "scope":        "<Bucket                   string>",
+    "deadline":     <UnixTimestamp             int64>,
+    "endUser":      "<EndUserId                string>",
+    "returnUrl":    "<RedirectURL              string>",
+    "returnBody":   "<ResponseBodyForAppClient string>",
+    "callbackBody": "<RequestBodyForAppServer  string>",
+    "callbackUrl":  "<RequestUrlForAppServer   string>",
+    "asyncOps":     "<asyncProcessCmds         string>"
+}
+\end{lstlisting}
+
+\section{参数}
+
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{25em}|p{8em}|}
+\hline
+名称 & 说明 & 备注 \\
+\hline
+scope & 指定存储目标 & 必填 \\
+\cline{2-2}
+      & "<Bucket>"：目标资源空间，如资源存在则失败 & \\
+\cline{2-2}
+      & "<Bucket>:<Key>"：目标资源标识，如资源存在则覆盖 & \\
+\hline
+deadline & 授权凭证失效期限，\href{http://en.wikipedia.org/wiki/Unix_time}{UNIX Epoch格式}，单位：秒 & 必填 \\
+\hline
+endUser & 唯一属主标识，用于特殊操作，如作为业务客户端标识，为图片或视频打水印 & \\
+\hline
+returnUrl & 指定上传成功后执行\href{http://en.wikipedia.org/wiki/HTTP_301}{HTTP 301转跳}的目标URL，多用于HTML表单上传场景。最终URL为<returnUrl>?<returnBody> & 不可与callbackUrl共用 \\
+\hline
+returnBody & 指定上传成功后返回七牛云给业务客户端返回的上传结果。支持魔法变量 & 不可与callbackBody共用 \\
+\hline
+callbackUrl & 指定上传成功后执行\href{http://en.wikipedia.org/wiki/POST_(HTTP)}{HTTP POST请求}的目标URL，多用于向业务服务器推送上传结果。必须是公网上能正常返回HTTP 200响应的URL & 不可与returnUrl共用 \\
+\hline
+callbackBody & 指定上传成功后推送的上传结果内容，支持魔法变量与自定义变量 & 不可与returnBody共用 \\
+\hline
+asyncOps & 指定上传成功后执行的异步预转指令，多个指令以分号（;）分隔 & \\
+\hline
+\end{tabular}
+}
+
+\section{签名算法}
+
+\chapter{API}
 
 \qpara{待续……}
 
-\chapter{上传API}
+\chapter{FAQ}
 
 \qpara{待续……}
 
