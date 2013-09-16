@@ -208,16 +208,16 @@
 \hline
 模式 & 说明 & 备注 \\
 \hline
-/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 按指定宽度和高度中的大者进行缩放，裁剪正中部分。&  \qsample{imageView-1-250x200} \newline \qsample{imageView-1-200x200} \newline  \qsample{imageView-1-200x300} \newline \qsample{imageView-1-200x500} \\
+/1/w/\textless Width\textgreater /h/\textless Height\textgreater & 以指定宽度和高度中的较大者为基准等比缩放，裁剪新图正中\textless width\textgreater x\textless height\textgreater 大小的部分 \newline 可以仅指定宽度或高度 &  \qsample{imageView-1-250x200} \newline \qsample{imageView-1-200x200} \newline  \qsample{imageView-1-200x300} \newline \qsample{imageView-1-200x500} \\
 \hline
-/2/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边。& \qsample{imageView-2-200x200} \\
-\hline
-/2/w/\textless Width\textgreater & 仅指定宽度，高度等比缩小。 & \qsample{imageView-2-200x200} \\
-\hline
-/2/h/\textless Height\textgreater & 仅指定高度，宽度等比缩小。 & \qsample{imageView-2-x200} \\
+/2/w/\textless Width\textgreater /h/\textless Height\textgreater & 同时指定宽度和高度，原图缩小为不超出\textless width\textgreater x\textless height\textgreater 大小的缩略图，避免裁剪长边 \newline 可以仅指定宽度或高度 & \qsample{imageView-2-200x200} \newline \qsample{imageView-2-x200} \\
 \hline
 \end{tabular}
 }
+
+\begin{center}
+\includegraphics[scale=1.1]{../pics/pic_fop/imageView_n_100x200.jpg}
+\end{center}
 
 \clearpage
 
@@ -282,7 +282,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageView/2/w/200}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_200x200.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageView_2_200x200.jpg}
     \end{center}
   \label{imageView-2-200x200}
 \end{sample}
@@ -294,7 +294,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageView/2/h/200}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageView_2_x200.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageView_2_x200.jpg}
     \end{center}
   \label{imageView-2-x200}
 \end{sample}
@@ -387,7 +387,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!x75p}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_75p.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_75p.jpg}
     \end{center}
   \label{imageMogr-thumbnail-75p}
 \end{sample}
@@ -402,7 +402,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/x467}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_700px.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_700px.jpg}
     \end{center}
   \label{imageMogr-thumbnail-700px}
 \end{sample}
@@ -414,7 +414,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_300x300.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_300x300.jpg}
     \end{center}
   \label{imageMogr-thumbnail-300x300}
 \end{sample}
@@ -426,7 +426,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/!200x200r}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x200r.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_200x200r.jpg}
     \end{center}
   \label{imageMogr-thumbnail-200x200r}
 \end{sample}
@@ -438,7 +438,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/200x300!}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x300_force.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_200x300_force.jpg}
     \end{center}
   \label{imageMogr-thumbnail-200x300-force}
 \end{sample}
@@ -450,7 +450,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/200x300>}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_200x300_greater.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_200x300_greater.jpg}
     \end{center}
   \label{imageMogr-thumbnail-200x300-greater}
 \end{sample}
@@ -462,7 +462,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/700x600<}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_700x600_less.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_700x600_less.jpg}
     \end{center}
   \label{imageMogr-thumbnail-700x600-less}
 \end{sample}
@@ -474,7 +474,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/350000@}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_350000_at.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_350000_at.jpg}
     \end{center}
   \label{imageMogr-thumbnail-350000-at}
 \end{sample}
@@ -506,7 +506,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/300x}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x.jpg}
     \end{center}
   \label{imageMogr-crop-300x}
 \end{sample}
@@ -518,7 +518,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/x200}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_x200.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_x200.jpg}
     \end{center}
   \label{imageMogr-crop-x200}
 \end{sample}
@@ -530,7 +530,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x300.jpg}
     \end{center}
   \label{imageMogr-crop-300x300}
 \end{sample}
@@ -579,7 +579,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/!300x300a30a100}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300_a30a100.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x300_a30a100.jpg}
     \end{center}
   \label{imageMogr-crop-300x300-a30a100}
 \end{sample}
@@ -591,7 +591,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/!300x300a30-100}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300_a30s100.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x300_a30s100.jpg}
     \end{center}
   \label{imageMogr-crop-300x300-a30s100}
 \end{sample}
@@ -603,7 +603,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/!300x300-30a100}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300_s30a100.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x300_s30a100.jpg}
     \end{center}
   \label{imageMogr-crop-300x300-s30a100}
 \end{sample}
@@ -615,7 +615,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/crop/!300x300-30-100}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_300x300_s30s100.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_300x300_s30s100.jpg}
     \end{center}
   \label{imageMogr-crop-300x300-s30s100}
 \end{sample}
@@ -627,7 +627,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/NorthWest/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_northwest.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_northwest.jpg}
     \end{center}
   \label{imageMogr-crop-northwest}
 \end{sample}
@@ -639,7 +639,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/North/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_north.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_north.jpg}
     \end{center}
   \label{imageMogr-crop-north}
 \end{sample}
@@ -651,7 +651,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/NorthEast/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_northeast.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_northeast.jpg}
     \end{center}
   \label{imageMogr-crop-northeast}
 \end{sample}
@@ -663,7 +663,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/West/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_west.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_west.jpg}
     \end{center}
   \label{imageMogr-crop-west}
 \end{sample}
@@ -675,7 +675,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/Center/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_center.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_center.jpg}
     \end{center}
   \label{imageMogr-crop-center}
 \end{sample}
@@ -687,7 +687,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/East/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_east.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_east.jpg}
     \end{center}
   \label{imageMogr-crop-east}
 \end{sample}
@@ -699,7 +699,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/SouthWest/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_southwest.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_southwest.jpg}
     \end{center}
   \label{imageMogr-crop-southwest}
 \end{sample}
@@ -711,7 +711,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/South/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_south.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_south.jpg}
     \end{center}
   \label{imageMogr-crop-south}
 \end{sample}
@@ -723,7 +723,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/SouthEast/crop/300x300}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_southeast.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_southeast.jpg}
     \end{center}
   \label{imageMogr-crop-southeast}
 \end{sample}
@@ -739,7 +739,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/rotate/45}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_rotate_45.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_rotate_45.jpg}
     \end{center}
   \label{imageMogr-rotate-45}
 \end{sample}
@@ -758,7 +758,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/thumbnail/400x200!/gravity/center/crop/100x100}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_thumbnail_crop_100x100.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_thumbnail_crop.jpg}
     \end{center}
   \label{imageMogr-thumbnail-crop-100x100}
 \end{sample}
@@ -770,7 +770,7 @@
     \qsamplelink{\qurl{http://newdocs.qiniudn.com/gogopher.jpg?imageMogr/v2/gravity/center/crop/100x100/thumbnail/200x200<}}
 
     \begin{center}
-      \includegraphics[scale=0.65]{../pics/gogopher_imageMogr_crop_thumbnail_200x200.jpg}
+      \includegraphics[scale=1.1]{../pics/pic_fop/imageMogr_crop_thumbnail.jpg}
     \end{center}
   \label{imageMogr-crop-thumbnail-200x200}
 \end{sample}
@@ -836,7 +836,7 @@
     \qsamplelink{\ttfamily\footnotesize\href{http://newdocs.qiniudn.com/gogopher.jpg?watermark/1/image/aHR0cDovL3d3dy5iMS5xaW5pdWRuLmNvbS9pbWFnZXMvbG9nby0yLnBuZw==}{http://newdocs.qiniudn.com/gogopher.jpg?watermark/1/image/aHR0cDov...}\normalsize}
 
     \begin{center}
-      \includegraphics[scale=0.69]{../pics/watermark_pic.jpg}
+      \includegraphics[scale=0.69]{../pics/pic_fop/watermark_pic.jpg}
     \end{center}
 \end{sample}
 
@@ -852,7 +852,7 @@
 \normalsize
 
     \begin{center}
-      \includegraphics[scale=0.69]{../pics/watermark_text.jpg}
+      \includegraphics[scale=0.69]{../pics/pic_fop/watermark_text.jpg}
     \end{center}
 \end{sample}
 
