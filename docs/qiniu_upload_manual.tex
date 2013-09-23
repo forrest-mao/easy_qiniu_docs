@@ -200,7 +200,7 @@ API数量 & 1 & 3 & 3 \\
 \includegraphics[scale=1]{../pics/upload/local_upload_direct.png}
 \end{center}
 
-\section{客户端通知上传模型}
+\section{客户端通知上传模型（非HTML）}
 
 \qpara{该模型适用于上传第三方产生的资源，并由第三方将上传结果通知给业务服务器。}
 \qpara{■\thinspace 适用场景：用户产生内容（UGC）。}
@@ -223,13 +223,12 @@ API数量 & 1 & 3 & 3 \\
 
 \chapter{上传授权凭证}
 
-\qpara{为防止恶意上传垃圾资源（消耗存储空间，引发额外计费），或篡改/损坏/伪造资源，每个上传请求都需要随附一份上传授权凭证（uploadToken），用于验证上传者与上传请求的合法性。同时，还可以在该凭证内指定一些用于微调上传操作的参数。}
-\qpara{上传授权凭证主要由业务服务器签发，避免签名用的密钥泄露。}
+\qpara{为防止恶意上传垃圾资源（消耗存储空间，引发额外计费），或篡改/损坏/伪造资源，每个上传请求都需要随附一份上传授权凭证（uploadToken），用于验证上传者与上传请求的合法性。同时，需要在该凭证内指定上传策略参数。}
+\qpara{上传授权凭证通常由业务服务器签发，避免签名用的密钥泄露。}
 
-\section{数据格式}
+\section{策略参数}
 
-\qpara{上传授权凭证使用JSON格式组织参数。}
-
+\qpara{■\thinspace 参数格式：\href{http://zh.wikipedia.org/wiki/JSON}{JSON}。}
 \begin{lstlisting}
 {
     "scope":        "<Bucket                   string>",
@@ -243,8 +242,20 @@ API数量 & 1 & 3 & 3 \\
 }
 \end{lstlisting}
 
-\section{参数}
+\begin{sample}
+  \caption{uploadToken实例（覆盖语义）}
+\begin{lstlisting}
+{
+    "scope":        "newdocs:qiniu_upload_manual.pdf",
+    "deadline":     1379918153,
+    "endUser":      "liangtao@qiniu.com"
+}
+\end{lstlisting}
 
+  \label{uploadToken-overwrite}
+\end{sample}
+
+\qpara{■\thinspace 参数说明：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|p{25em}|p{8em}|}
@@ -253,11 +264,11 @@ API数量 & 1 & 3 & 3 \\
 \hline
 scope & 指定存储目标 & 必填 \\
 \cline{2-2}
-      & "<Bucket>"：目标资源空间，如资源存在则失败 & \\
+      & "<Bucket>"：目标资源空间，如资源存在则\textcolor{red}{失败} & \\
 \cline{2-2}
-      & "<Bucket>:<Key>"：目标资源标识，如资源存在则覆盖 & \\
+      & "<Bucket>:<Key>"：目标资源标识，如资源存在则\textcolor{red}{覆盖} & \\
 \hline
-deadline & 授权凭证失效期限，\href{http://en.wikipedia.org/wiki/Unix_time}{UNIX Epoch格式}，单位：秒 & 必填 \\
+deadline & 凭证失效期限，\href{http://en.wikipedia.org/wiki/Unix_time}{UNIX Epoch格式}（绝对时间），单位：秒 & 必填 \\
 \hline
 endUser & 唯一属主标识，用于特殊操作，如作为业务客户端标识，为图片或视频打水印 & \\
 \hline
@@ -269,14 +280,22 @@ callbackUrl & 指定上传成功后执行\href{http://en.wikipedia.org/wiki/POST
 \hline
 callbackBody & 指定上传成功后推送的上传结果内容，支持魔法变量与自定义变量 & 不可与returnBody共用 \\
 \hline
-asyncOps & 指定上传成功后执行的异步预转指令，多个指令以分号（;）分隔 & \\
+asyncOps & 指定上传成功后执行的异步预转指令，多个指令以分号（{\bf ;}）分隔 & \\
 \hline
 \end{tabular}
 }
 
 \section{签名算法}
 
+\href{http://zh.wikipedia.org/wiki/Base64#.E5.9C.A8URL.E4.B8.AD.E7.9A.84.E5.BA.94.E7.94.A8}{URL友好的Base64（urlsafe\_base64）}
+
 \chapter{API}
+
+\section{直传}
+
+\section{断点续上传}
+
+\section{追加上传}
 
 \qpara{待续……}
 
