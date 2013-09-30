@@ -83,40 +83,64 @@
 \maketitle
 \tableofcontents
 
-\chapter{术语}
+\chapter{上传业务模型}
 
+\qpara{七牛云存储提供多种上传业务模型，以满足不同业务场景的需求。用户可根据实际情况择优选用，使用\href{http://docs.qiniu.com/sdk/index.html}{官方SDK}/第三方SDK开发上传模块或工具。还可以直接使用\href{http://docs.qiniu.com/tools/v6/index.html}{官方工具}便捷快速地上传资源，无需额外编程。}
 
-\begin{itemize}
-\item {\bf 资源}\par
-\qhint{存入七牛云的数据体的统称，在有限前提下可与“文件”互换。}
+\section{本地直传模型}
 
-\item {\bf 七牛云}\par
-\qhint{所有对外放开的七牛服务及相关系统的统称，含云存储、云处理和云加速三大子系统。}
-\qhint{本文通篇使用“七牛云”指代“七牛云存储子系统”这一实体。}
+\qpara{本模型适用于将存储在本地计算机或服务器的资源直接上传至七牛云，整个过程不涉及其它业务服务器。非常合适应用在大批量数据迁移、定期同步备份等场景下。}
+\qblock{■\thinspace 参与实体：七牛云、本地资源存储机。}
+\qblock{■\thinspace 官方实用工具：\href{http://docs.qiniu.com/tools/v6/qrsync.html}{qrsync}。}
 
-\item {\bf 业务服务器}\par
-\qhint{七牛用户自建的、用于运行业务逻辑的服务器实体。}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/local_upload_direct.png}
+\end{center}
 
-\item {\bf 业务客户端}\par
-\qhint{七牛用户的用户（即最终用户）、用于运行交互逻辑的客户端实体。}
+\clearpage
 
-\item {\bf 高速线路}\par
-\qhint{机房（或IDC）之间使用的通信线路，具有低延迟（20～50毫秒）、极低丢包率、中间路由少或转发效率高、上下行带宽对等等特点。}
-\qhint{注意：高速通信线路可能跨越不同运营商的异构网络。}
+\section{客户端通知上传模型}
 
-\item {\bf 低速线路}\par
-\qhint{机房（或IDC）与业务客户端之间使用的通信线路，具有中等延迟（50～100毫秒）、低丢包率、偶发故障、偶发线路切换、上下行带宽不对等等特点。}
+\qpara{本模型适用于业务客户端将用户产生的内容（UGC）上传至七牛云后，将上传结果通知给业务服务器。合适附件存储、网盘、摄影摄像应用等场景。}
+\qblock{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
+\qblock{■\thinspace 潜在问题：1）上传过程与通知过程是分离的，任一过程失败都将导致业务状态不一致；2）上传过程与通知过程都可能走低速线路，带来不必要的延迟。}
 
-\item {\bf 客户端接入环境}\par
-\qhint{业务客户端接入互联网的环境，常见的有LAN（局域网）、WLAN/Wi-Fi（无线局域网）、2G/3G（移动网）等。}
-\qhint{注意：接入环境会随着客户端物理位置随时发生改变，如离开房屋导致从Wi-Fi环境切换到3G环境，跨越3G信号塔覆盖区域导致在不同的接入基站之间切换。}
-\end{itemize}
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/ugc_upload_direct.png}
+\end{center}
+
+\clearpage
+
+\subsection{HTML表单上传模型}
+
+\qpara{本模型是客户端通知上传模型的一种特例，适用于业务客户端通过网页表单形式上传资源的场景（网站）。}
+\qblock{■\thinspace 参与实体：七牛云、业务客户端（浏览器）、业务服务器。}
+
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/html_upload_direct.png}
+\end{center}
+
+\qpara{注意：\textcolor{red}{红线}为returnBody的传送轨迹。}
+
+\clearpage
+
+\section{七牛云通知上传模型}
+
+\qpara{本模型同样由业务客户端将用户产生的内容（UGC）上传至七牛云，但改由七牛云将上传结果通知给业务服务器，并将最终结果转送给业务客户端。}
+\qblock{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
+\qblock{■\thinspace 优点：尽可能避免业务客户端/服务器之间多次交互带来的状态不一致问题，降低可能引发的业务风险。}
+
+\begin{center}
+\includegraphics[scale=1]{../pics/upload/ugc_upload_callback.png}
+\end{center}
+
+\qpara{注意：\textcolor{red}{红线}为callbackBody的传送轨迹。}
 
 \chapter{上传方式}
 
-\section{直传}
+\section{普通上传}
 
-\qpara{直传是最简单、最直观的上传方式，通过将单一资源封装在一次HTTP请求中传输至七牛云。}
+\qpara{最简单、最直观的上传方式，通过将单一资源封装在一次HTTP请求中传输至七牛云。}
 \qblock{■\thinspace 优点：传输模型简单，API单一。}
 \qblock{■\thinspace 缺点：对大型资源不友好，失败概率与资源大小成正比，纠错成本高（只能重传整个资源）。}
 \qblock{■\thinspace 适用场景：大小固定的微型/小型资源上传、服务器之间资源传输。}
@@ -129,14 +153,15 @@
 
 \qpara{通过将资源切分为固定大小的数据块（称为Block，4MB大小），封装在多次HTTP请求中逐一传输至七牛云。}
 \qpara{可根据实际需求灵活地调整为串行传输或并发传输。}
-\qblock{■\thinspace 优点：对大型资源友好，纠错成本小（只重传失败的数据块）。}
+\qblock{■\thinspace 优点：对大型资源友好，纠错成本小（只重传失败的数据片，而不是数据块）。}
 \qblock{■\thinspace 缺点：传输模型复杂，API多。}
 \qblock{■\thinspace 适用场景：大小固定的中型/大型资源上传，弱信号通信线路的上传，频繁切换接入点/线路的上传。}
 
 \subsection{串行传输}
 
 \qpara{断点续上传的串行传输与单一资源的直传类似，只是传输单元更小、纠错成本更小。相对地，多次HTTP请求会带来传输成本的上升。}
-\qblock{■\thinspace 适用场景：出口（上行）带宽较小的环境，如家用ADSL接入线路。}
+\qblock{■\thinspace 优点：逻辑简单，实现容易。}
+\qblock{■\thinspace 适用场景：需要快速编程实现业务逻辑的场景。}
 
 \begin{center}
 \includegraphics[scale=1]{../pics/upload/one_rput.png}
@@ -147,7 +172,9 @@
 \subsection{并发传输}
 
 \qpara{断点续上传的并发传输与多资源的并发直传类似，用于加快单一大型资源的传输速度。}
-\qblock{■\thinspace 适用场景：出口（上行）带宽较大的环境，如商业专用接入线路。}
+\qblock{■\thinspace 优点：提供最高的带宽利用率。}
+\qblock{■\thinspace 缺点：涉及多线程技术，增加了调试难度。}
+\qblock{■\thinspace 适用场景：需要调优以提高带宽利用率的场景。}
 
 \begin{center}
 \includegraphics[scale=1]{../pics/upload/one_rputl.png}
@@ -183,7 +210,7 @@
 \def\arraystretch{2}
 \begin{tabular}{|l|p{10em}|p{10em}|p{10em}|}
 \hline
-特性 & 直传 & 断点续上传 & 追加上传 \\
+特性 & 普通上传 & 断点续上传 & 追加上传 \\
 \hline
 API数量 & 1 & 3 & 3 \\
 \hline
@@ -198,60 +225,7 @@ API数量 & 1 & 3 & 3 \\
 \end{tabular}
 }
 
-\chapter{上传业务模型}
-
-\qpara{七牛云存储提供多种上传业务模型，以满足不同业务场景的需求。用户可根据实际情况择优选用，使用七牛官方SDK开发上传模块或工具，或直接使用七牛官方上传工具。}
-
-\section{本地上传模型}
-
-\qpara{该模型适用于上传存储在本地计算机或服务器的资源。}
-\qblock{■\thinspace 适用场景：资源直传、大批量迁移、定期备份。}
-\qblock{■\thinspace 参与实体：七牛云、本地资源存储机。}
-
-\begin{center}
-\includegraphics[scale=1]{../pics/upload/local_upload_direct.png}
-\end{center}
-
 \clearpage
-
-\section{客户端通知上传模型}
-
-\qpara{该模型适用于上传第三方产生的资源，并由第三方将上传结果通知给业务服务器。}
-\qblock{■\thinspace 适用场景：用户产生内容（UGC）。}
-\qblock{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
-\qblock{■\thinspace 潜在问题：1）上传过程与通知过程是分离的，任一过程失败都将导致业务状态不一致；2）上传过程与通知过程都可能走低速线路，带来不必要的延迟。}
-
-\begin{center}
-\includegraphics[scale=1]{../pics/upload/ugc_upload_direct.png}
-\end{center}
-
-\clearpage
-
-\subsection{HTML表单上传模型}
-
-\qpara{该模型是客户端通知上传模型的一种特例，适用于通过网页表单形式上传资源。}
-\qblock{■\thinspace 适用场景：网站。}
-\qblock{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
-
-\begin{center}
-\includegraphics[scale=1]{../pics/upload/html_upload_direct.png}
-\end{center}
-
-\qpara{注意：\textcolor{red}{红线}为returnBody的传送轨迹。}
-
-\clearpage
-
-\section{七牛云通知上传模型}
-
-\qpara{该模型同样适用于上传第三方产生的资源，只是改由七牛云将上传结果通知给业务服务器，并把最终结果返回给第三方。}
-\qblock{■\thinspace 适用场景：用户产生内容（UGC）。}
-\qblock{■\thinspace 参与实体：七牛云、业务客户端、业务服务器。}
-
-\begin{center}
-\includegraphics[scale=1]{../pics/upload/ugc_upload_callback.png}
-\end{center}
-
-\qpara{注意：\textcolor{red}{红线}为callbackBody的传送轨迹。}
 
 \chapter{上传授权凭证}
 
@@ -331,7 +305,7 @@ asyncOps & 指定上传成功后执行的异步预转指令，多个指令以分
 
 \section{魔法变量（Magic Variables）}
 
-\qpara{魔法变量是七牛云与用户交换数据的一种占位符机制，在业务服务器生成的\qqbox{returnBody}或\qqbox{callbackBody}中占据某一位置形成模板，由七牛云在恰当时机求值并填入对应反馈信息。具体传递方法参看相关API示例。}
+\qpara{魔法变量是七牛云与用户交换数据的一种占位符机制，在业务服务器生成的\qqbox{returnBody}或\qqbox{callbackBody}中占据某一位置形成模板，由七牛云在恰当时机求值并填入对应反馈信息。具体传递方法参看\qsample{putf-direct-with-variabes}。}
 
 \qblock{■\thinspace 书写形式：类似变量引用与属性引用，区分大小写。}
 \begin{lstlisting}
@@ -422,7 +396,7 @@ exif.YResolution & 纵向分辨率 \\
 \section{自定义变量（X-Variables）}
 
 \qpara{自定义变量是七牛云提供的另一种占位符机制，用于协助业务客户端与业务服务器之间交换信息。业务服务器负责生成\qqbox{returnBody}或\qqbox{callbackBody}模板，由七牛云填入业务客户端传回的对应信息后返回给业务服务器。借由这一机制可以减少不必要的交互，降低失败风险，减少流量。}
-\qpara{自定义变量的名称由七牛用户自行定义，并以\qqbox{x:}打头（区分大小写），如\qqbox{x:location}和\qqbox{x:price}。具体传递方法参看相关API示例。}
+\qpara{自定义变量的名称由七牛用户自行定义，并以\qqbox{x:}打头（区分大小写），如\qqbox{x:location}和\qqbox{x:price}。具体传递方法参看\qsample{putf-direct-with-variabes}。}
 
 \chapter{API}
 
@@ -535,6 +509,7 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 }
 
 \begin{sample}
+  \label{putf-direct-with-variabes}
   \caption{直传单一资源（图片＋魔法变量＋自定义变量）}
 
 \qblock{■\thinspace 策略参数：}
@@ -618,5 +593,34 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \chapter{FAQ}
 
 \qpara{待续……}
+
+\chapter{术语}
+
+\begin{itemize}
+\item {\bf 资源}\par
+\qhint{存入七牛云的数据体的统称，在有限前提下可与“文件”互换。}
+
+\item {\bf 七牛云}\par
+\qhint{所有对外放开的七牛服务及相关系统的统称，含云存储、云处理和云加速三大子系统。}
+\qhint{本文通篇使用“七牛云”指代“七牛云存储子系统”这一实体。}
+
+\item {\bf 业务服务器}\par
+\qhint{七牛用户自建的、用于运行业务逻辑的服务器实体。}
+
+\item {\bf 业务客户端}\par
+\qhint{七牛用户的用户（即最终用户）、用于运行交互逻辑的客户端实体。}
+
+\item {\bf 高速线路}\par
+\qhint{机房（或IDC）之间使用的通信线路，具有低延迟（20～50毫秒）、极低丢包率、中间路由少或转发效率高、上下行带宽对等等特点。}
+\qhint{注意：高速通信线路可能跨越不同运营商的异构网络。}
+
+\item {\bf 低速线路}\par
+\qhint{机房（或IDC）与业务客户端之间使用的通信线路，具有中等延迟（50～100毫秒）、低丢包率、偶发故障、偶发线路切换、上下行带宽不对等等特点。}
+
+\item {\bf 客户端接入环境}\par
+\qhint{业务客户端接入互联网的环境，常见的有LAN（局域网）、WLAN/Wi-Fi（无线局域网）、2G/3G（移动网）等。}
+\qhint{注意：接入环境会随着客户端物理位置随时发生改变，如离开房屋导致从Wi-Fi环境切换到3G环境，跨越3G信号塔覆盖区域导致在不同的接入基站之间切换。}
+\end{itemize}
+
 
 \end{document}
