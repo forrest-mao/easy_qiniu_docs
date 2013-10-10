@@ -305,7 +305,7 @@ asyncOps & 指定上传成功后执行的异步预转指令，多个指令以分
 
 \section{魔法变量（Magic Variables）}
 
-\qpara{魔法变量是七牛云与用户交换数据的一种占位符机制，在业务服务器生成的\qqbox{returnBody}或\qqbox{callbackBody}中占据某一位置形成模板，由七牛云在恰当时机求值并填入对应反馈信息。具体传递方法参看\qsample{putf-direct-with-variabes}。}
+\qpara{魔法变量是七牛云与用户交换数据的一种占位符机制，在业务服务器生成的\qqbox{returnBody}或\qqbox{callbackBody}中占据某一位置形成模板，由七牛云在恰当时机求值并填入对应反馈信息。具体传递方法参看\hyperref[putf-direct-with-variabes]{示例}。}
 
 \qblock{■\thinspace 书写形式：类似变量引用与属性引用，区分大小写。}
 \begin{lstlisting}
@@ -396,7 +396,7 @@ exif.YResolution & 纵向分辨率 \\
 \section{自定义变量（X-Variables）}
 
 \qpara{自定义变量是七牛云提供的另一种占位符机制，用于协助业务客户端与业务服务器之间交换信息。业务服务器负责生成\qqbox{returnBody}或\qqbox{callbackBody}模板，由七牛云填入业务客户端传回的对应信息后返回给业务服务器。借由这一机制可以减少不必要的交互，降低失败风险，减少流量。}
-\qpara{自定义变量的名称由七牛用户自行定义，并以\qqbox{x:}打头（区分大小写），如\qqbox{x:location}和\qqbox{x:price}。具体传递方法参看\qsample{putf-direct-with-variabes}。}
+\qpara{自定义变量的名称由七牛用户自行定义，并以\qqbox{x:}打头（区分大小写），如\qqbox{x:location}和\qqbox{x:price}。具体传递方法参看\hyperref[putf-direct-with-variabes]{示例}。}
 
 \chapter{API}
 
@@ -510,6 +510,7 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \clearpage
 
 \subsection{直传单一资源（图片＋魔法变量＋自定义变量）}
+\label{putf-direct-with-variabes}
 
 \qblock{■\thinspace 策略参数：}
 {
