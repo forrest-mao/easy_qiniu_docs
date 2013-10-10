@@ -405,8 +405,7 @@ exif.YResolution & 纵向分辨率 \\
 
 \section{直传}
 
-\begin{sample}
-  \caption{直传单一资源（文件）}
+\subsection{直传单一资源（文件）}
 
 \qblock{■\thinspace 策略参数：}
 {
@@ -441,34 +440,14 @@ exif.YResolution & 纵向分辨率 \\
 \qhttp{Content-Type: application/octet-stream}
 \qhttp{Content-Transfer-Encoding: binary}
 \qhttp{\ }
-\qhttp{\textcolor{red}{This is a plain text file for testing.}}
-\qhttp{\textcolor{red}{Again.}}
+\qhttp{\textcolor{YellowOrange}{This is a plain text file for testing.}}
+\qhttp{\textcolor{YellowOrange}{Again.}}
 \qhttp{\ }
 \qhttp{--763C032728D21BC3D50ED93F1965413BC37B25B4--}
 \qhttp{\ }
 }
 
-\qblock{■\thinspace 响应：}
-{
-\tt \footnotesize
-\qhttp{HTTP/1.1 200 OK}
-\qhttp{Date: Sun, 29 Sep 2013 05:09:05 GMT}
-\qhttp{Content-Type: application/json}
-\qhttp{Connection: close}
-\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
-\qhttp{Content-Length: 57}
-\qhttp{Pragma: no-cache}
-\qhttp{X-Content-Type-Options: nosniff}
-\qhttp{\textcolor{red}{X-Log: BDT;BDT;LBD:1;rs.put:15;rs-upload.putFile:59;UP:60}}
-\qhttp{\textcolor{red}{X-Reqid: KT0AAMALhqX-RigT}}
-\qhttp{\ }
-\qhttp{\{"\textcolor{red}{hash}":"\textcolor{red}{Fre2JqI866GUYQQUpfy6lvE792Ka}","\textcolor{red}{key}":"\textcolor{red}{test2.txt}"\}}
-}
-\end{sample}
-
-\clearpage
-
-\qblock{■\thinspace 请求：}
+\qblock{■\thinspace 参数说明：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|p{7em}|p{19em}|p{7em}|}
@@ -490,7 +469,27 @@ API & \textcolor{red}{file} & 文件内容 & \\
 \end{tabular}
 }
 
+\qpara{\ }
+
 \qblock{■\thinspace 响应：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Date: Sun, 29 Sep 2013 05:09:05 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 57}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{\textcolor{red}{X-Log: BDT;BDT;LBD:1;rs.put:15;rs-upload.putFile:59;UP:60}}
+\qhttp{\textcolor{red}{X-Reqid: KT0AAMALhqX-RigT}}
+\qhttp{\ }
+\qhttp{\{"\textcolor{red}{hash}":"\textcolor{red}{Fre2JqI866GUYQQUpfy6lvE792Ka}","\textcolor{red}{key}":"\textcolor{red}{test2.txt}"\}}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 返回值说明：}
 \qtable{
 \def\arraystretch{2}
 \begin{tabular}{|l|p{7em}|p{19em}|p{7em}|}
@@ -508,9 +507,9 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \end{tabular}
 }
 
-\begin{sample}
-  \label{putf-direct-with-variabes}
-  \caption{直传单一资源（图片＋魔法变量＋自定义变量）}
+\clearpage
+
+\subsection{直传单一资源（图片＋魔法变量＋自定义变量）}
 
 \qblock{■\thinspace 策略参数：}
 {
@@ -518,7 +517,7 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \qhttp{\{}
 \qhttp{    "scope":    "demoshow:gogopher.jpg",}
 \qhttp{    "deadline": 1379918153,}
-\qhttp{    "returnUrl": "\textcolor{YellowOrange}{http://fake.com/path/to/return}",}
+\qhttp{    "returnUrl": "\textcolor{YellowGreen}{http://fake.com/path/to/return}",}
 \qhttp{    "returnBody": "w=\textcolor{red}{\$(imageInfo.width)}\&h=\textcolor{red}{\$(imageInfo.height)}\&t=\textcolor{red}{\$(x:tag)}"}
 \qhttp{\}}
 \qhttp{\ }
@@ -563,7 +562,7 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \qhttp{Content-Type: text/plain; charset=utf-8}
 \qhttp{Connection: close}
 \qhttp{Cache-Control: no-store, no-cache, must-revalidate}
-\qhttp{Location: \textcolor{YellowOrange}{http://fake.com/path/to/return}?upload\_ret=\textcolor{LimeGreen}{dz02NDAmaD00MjcmdD0iZ29waGVyIg==}}
+\qhttp{Location: \textcolor{YellowGreen}{http://fake.com/path/to/return}?upload\_ret=\textcolor{LimeGreen}{dz02NDAmaD00MjcmdD0iZ29waGVyIg==}}
 \qhttp{Pragma: no-cache}
 \qhttp{X-Content-Type-Options: nosniff}
 \qhttp{X-Log: BDT:4;BDT:5;LBD:6;rs.put:14;rs-upload.putFile:22;UP:23/301}
@@ -580,11 +579,186 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \qhttp{w=\textcolor{red}{640}\&h=\textcolor{red}{427}\&t="\textcolor{red}{gopher}"}
 \qhttp{\ }
 }
-\end{sample}
 
 \section{断点续上传}
 
-\qpara{待续……}
+\subsection{微型资源上传}
+
+\qblock{■\thinspace 策略参数：}
+{
+\tt \footnotesize
+\qhttp{\{}
+\qhttp{    "scope":    "demoshow:test2.txt",}
+\qhttp{    "deadline": 1379918153,}
+\qhttp{\}}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 请求（创建数据块上传会话，传递块长度与第一个数据片）：}
+{
+\tt \footnotesize
+\qhttp{POST \textcolor{red}{/mkblk}\textcolor{LimeGreen}{/46} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{\textcolor{blue}{Content-Length: 46}}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{\textcolor{blue}{Content-Type: application/octet-stream}}
+\qhttp{\textcolor{blue}{Host: up.qiniu.com}}
+\qhttp{\textcolor{blue}{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:Hh2Fi\_7KmGEtiqXFF...}}
+\qhttp{\ }
+\qhttp{\textcolor{YellowOrange}{This is a plain text file for testing.}}
+\qhttp{\textcolor{YellowOrange}{Again.}}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 接口URL格式：}
+\begin{lstlisting}
+http://up.qiniu.com/mkblk/<blockSize>
+\end{lstlisting}
+
+\qblock{●\thinspace 参数说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{9em}|p{17em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+HTTP & \textcolor{blue}{Content-Length} & （第一个）数据片长度 & \\
+\hline
+HTTP & \textcolor{blue}{Content-Type} & 指定上传数据块的内容类型 \newline 固定值：application/octet-stream & \\
+\hline
+HTTP & \textcolor{blue}{Host} & 目标服务器 \newline 固定值：up.qiniu.com & \\
+\hline
+HTTP & \textcolor{blue}{Authorization} & 上传授权凭证 \newline 格式：UpToken <授权凭证> & \\
+\hline
+API & \textcolor{red}{/mkblk} & 上传指令：创建一个数据块上传会话 & \\
+\hline
+API & \textcolor{LimeGreen}{/46} & 上传数据块长度 & 最大4MB \\
+\hline
+API & \textcolor{YellowOrange}{This is a...} & 数据片内容 & \\
+\hline
+\end{tabular}
+}
+
+\clearpage
+
+\qblock{■\thinspace 响应（收存数据块，返回上传会话信息）：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Tue, 08 Oct 2013 08:05:16 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 323}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: BDT;BDT;LBD:1;UP:4}
+\qhttp{X-Reqid: KT0AAEC4BhvVEysT}
+\qhttp{\ }
+\qhttp{\{"\textcolor{red}{ctx}":"oOFl-Y7dIZ...","\textcolor{red}{checksum}":"t7YmojzroZ...","\textcolor{red}{crc32}":2035613763,}
+\qhttp{"\textcolor{red}{offset}":46,"\textcolor{red}{host}":"http://up-nb-5.qbox.me"\}}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 返回值说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{7em}|p{19em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+API & \textcolor{red}{ctx} & 上传上下文信息 & 仅供服务器使用 \\
+\hline
+API & \textcolor{red}{checksum} & 已传部分的校验信息 & 仅供服务器使用 \\
+\hline
+API & \textcolor{red}{crc32} & 已传部分的CRC32校验值 \newline 可与本地计算的CRC32值对比 & \\
+\hline
+API & \textcolor{red}{offset} & 已传部分的偏移值，单位：Byte（字节） \newline 可与本地计算的CRC32值对比 & \\
+\hline
+API & \textcolor{red}{host} & 下一请求报文使用的主机域名 & \\
+\hline
+\end{tabular}
+}
+
+\clearpage
+
+\qblock{■\thinspace 请求（合成文件，传递资源大小、资源名和上传上下文信息）：}
+{
+\tt \footnotesize
+\qhttp{POST \textcolor{red}{/mkfile}\textcolor{YellowGreen}{/46}\textcolor{red}{/key/dGVzdDIudHh0} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{Content-Length: 208}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{\textcolor{blue}{Content-Type: text/plain}}
+\qhttp{\textcolor{blue}{Host: up-nb-5.qbox.me}}
+\qhttp{\textcolor{blue}{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:Hh2Fi\_7KmGEtiqXFF...}}
+\qhttp{\ }
+\qhttp{\textcolor{YellowOrange}{oOFl-Y7dIZH6cPkXfuPWYP9jZCZxpf0NALRhFDlUpuQAASNFZ4mrze\_-3LqYdlQyEPDh0sNUaGlzIGlzI...}}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 接口URL格式：}
+\begin{lstlisting}
+http://<selectedUpHost>/mkfile/<blockSize>/key/<urlSafeBase64EncodedKey>
+\end{lstlisting}
+
+\qblock{●\thinspace 参数说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{7em}|p{19em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+HTTP & \textcolor{blue}{Content-Type} & 指定上传上下文的内容类型 \newline 固定值：text/plain & \\
+\hline
+HTTP & \textcolor{blue}{Host} & 目标服务器 \newline 可变值：mkblk响应报文中的host字段值 & \\
+\hline
+HTTP & \textcolor{blue}{Authorization} & 上传授权凭证 \newline 格式：UpToken <授权凭证> & 即mkblk请求报告中的授权凭证 \\
+\hline
+API & \textcolor{red}{/mkfile} & 上传指令：根据传递的上传上下文序列，合成资源并指定资源名 & \\
+\hline
+API & \textcolor{YellowGreen}{/46} & 资源大小 & \\
+\hline
+API & \textcolor{red}{/key/dGVzdDIudHh0} & 指定资源名 & 需要编码为URL友好的Base64格式 \\
+\hline
+\end{tabular}
+}
+
+\clearpage 
+
+\qblock{■\thinspace 响应（合成文件）：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Tue, 08 Oct 2013 08:05:16 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 57}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: rs.put:7;mkfilev2.onFilePutted:7;UP:7}
+\qhttp{X-Reqid: KT0AANDC-iLVEysT}
+\qhttp{\ }
+\qhttp{\{"\textcolor{red}{hash}":"Fre2JqI866GUYQQUpfy6lvE792Ka","\textcolor{red}{key}":"test2.txt"\}}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 返回值说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{7em}|p{19em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+API & \textcolor{red}{hash} & ETag值，用于追踪资源版本 & \\
+\hline
+API & \textcolor{red}{key} & 最终资源名 & \\
+\hline
+\end{tabular}
+}
 
 \section{追加上传}
 
