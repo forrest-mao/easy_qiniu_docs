@@ -482,10 +482,10 @@ API & \textcolor{red}{file} & 文件内容 & \\
 \qhttp{Content-Length: 57}
 \qhttp{Pragma: no-cache}
 \qhttp{X-Content-Type-Options: nosniff}
-\qhttp{\textcolor{red}{X-Log: BDT;BDT;LBD:1;rs.put:15;rs-upload.putFile:59;UP:60}}
-\qhttp{\textcolor{red}{X-Reqid: KT0AAMALhqX-RigT}}
+\qhttp{\textcolor{blue}{X-Log: BDT;BDT;LBD:1;rs.put:15;rs-upload.putFile:59;UP:60}}
+\qhttp{\textcolor{blue}{X-Reqid: KT0AAMALhqX-RigT}}
 \qhttp{\ }
-\qhttp{\{"\textcolor{red}{hash}":"\textcolor{red}{Fre2JqI866GUYQQUpfy6lvE792Ka}","\textcolor{red}{key}":"\textcolor{red}{test2.txt}"\}}
+\qhttp{\{"\textcolor{red}{hash}":"Fre2JqI866GUYQQUpfy6lvE792Ka","\textcolor{red}{key}":"test2.txt"\}}
 \qhttp{\ }
 }
 
@@ -496,9 +496,9 @@ API & \textcolor{red}{file} & 文件内容 & \\
 \hline
 协议层次 & 名称 & 说明 & 备注 \\
 \hline
-API & \textcolor{red}{X-Log} & 七牛云用于跟踪错误的微型日志 \newline 可作为查错线索提交给客服人员 & \\
+API & \textcolor{blue}{X-Log} & 七牛云用于跟踪错误的微型日志 \newline ★可作为查错线索提交给客服人员 & \\
 \hline
-API & \textcolor{red}{X-Reqid} & 七牛云用于跟踪错误的流水号 \newline 可作为查错线索提交给客服人员 & \\
+API & \textcolor{blue}{X-Reqid} & 七牛云用于跟踪错误的流水号 \newline ★可作为查错线索提交给客服人员 & \\
 \hline
 API & \textcolor{red}{hash} & ETag值，用于追踪资源版本 & \\
 \hline
@@ -701,7 +701,12 @@ API & \textcolor{red}{host} & 下一请求报文使用的主机域名 & \\
 
 \qblock{●\thinspace 接口URL格式：}
 \begin{lstlisting}
-http://<selectedUpHost>/mkfile/<blockSize>/key/<urlSafeBase64EncodedKey>
+http://<selectedUpHost>/mkfile/<blockSize>
+                       /key/<urlSafeBase64EncodedKey>
+                       /x:userVariable1/<urlSafeBase64EncodedVariable1>
+                       /x:userVariable2/<urlSafeBase64EncodedVariable2>
+                       ...
+                       /x:userVariableN/<urlSafeBase64EncodedVariableN>
 \end{lstlisting}
 
 \qblock{●\thinspace 参数说明：}
