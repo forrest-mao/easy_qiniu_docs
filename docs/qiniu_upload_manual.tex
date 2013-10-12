@@ -458,7 +458,7 @@ HTTP & \textcolor{blue}{Content-Type} & 指定参数与数据组织格式 \newli
 \hline
 HTTP & \textcolor{blue}{User-Agent} & 发起端身份标识，可用于防盗链、日志分析 & SDK可设定特殊标识符 \\
 \hline
-HTTP & \textcolor{blue}{Host} & 目标服务器 \newline 固定值：up.qiniu.com & \\
+HTTP & \textcolor{blue}{Host} & 上传服务器主机域名 \newline 固定值：up.qiniu.com & \\
 \hline
 API & \textcolor{red}{token} & 上传授权凭证 & \\
 \hline
@@ -585,6 +585,10 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 
 \subsection{微型资源上传}
 
+\qpara{对于小于4MB的微型资源，只需要上传一个数据块并合成文件即可。}
+\qpara{由于一次完整的断点续上传至少涉及2次HTTP交互，共计4个HTTP报文，因此建议根据应用场景灵活决定某个大小以下的资源改用直传，减少交互次数。}
+\qpara{本例不涉及多个数据片上传。}
+
 \qblock{■\thinspace 策略参数：}
 {
 \tt \footnotesize
@@ -595,7 +599,7 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \qhttp{\ }
 }
 
-\qblock{■\thinspace 请求（创建数据块上传会话，传递块长度与第一个数据片）：}
+\qblock{■\thinspace 请求样例1，创建数据块上传会话，传递首个数据块大小与其第一个数据片：}
 {
 \tt \footnotesize
 \qhttp{POST \textcolor{red}{/mkblk}\textcolor{LimeGreen}{/46} HTTP/1.1}
@@ -623,17 +627,17 @@ http://up.qiniu.com/mkblk/<blockSize>
 \hline
 协议层次 & 名称 & 说明 & 备注 \\
 \hline
-HTTP & \textcolor{blue}{Content-Length} & （第一个）数据片长度 & \\
+HTTP & \textcolor{blue}{Content-Length} & （第一个）数据片大小 & \\
 \hline
 HTTP & \textcolor{blue}{Content-Type} & 指定上传数据块的内容类型 \newline 固定值：application/octet-stream & \\
 \hline
-HTTP & \textcolor{blue}{Host} & 目标服务器 \newline 固定值：up.qiniu.com & \\
+HTTP & \textcolor{blue}{Host} & 上传服务器主机域名 \newline 固定值：up.qiniu.com & \\
 \hline
 HTTP & \textcolor{blue}{Authorization} & 上传授权凭证 \newline 格式：UpToken <授权凭证> & \\
 \hline
 API & \textcolor{red}{/mkblk} & 上传指令：创建一个数据块上传会话 & \\
 \hline
-API & \textcolor{LimeGreen}{/46} & 上传数据块长度 & 最大4MB \\
+API & \textcolor{LimeGreen}{/46} & 上传数据块大小 & 最大4MB \\
 \hline
 API & \textcolor{YellowOrange}{This is a...} & 数据片内容 & \\
 \hline
@@ -642,7 +646,7 @@ API & \textcolor{YellowOrange}{This is a...} & 数据片内容 & \\
 
 \clearpage
 
-\qblock{■\thinspace 响应（收存数据块，返回上传会话信息）：}
+\qblock{■\thinspace 响应样例1，收存第一个数据片，返回上传会话信息：}
 {
 \tt \footnotesize
 \qhttp{HTTP/1.1 200 OK}
@@ -669,13 +673,13 @@ API & \textcolor{YellowOrange}{This is a...} & 数据片内容 & \\
 \hline
 协议层次 & 名称 & 说明 & 备注 \\
 \hline
-API & \textcolor{red}{ctx} & 上传上下文信息 & 仅供服务器使用 \\
+API & \textcolor{red}{ctx} & 已传部分的上传上下文信息 & 仅供服务器使用 \\
 \hline
 API & \textcolor{red}{checksum} & 已传部分的校验信息 & 仅供服务器使用 \\
 \hline
 API & \textcolor{red}{crc32} & 已传部分的CRC32校验值 \newline 可与本地计算的CRC32值对比 & \\
 \hline
-API & \textcolor{red}{offset} & 已传部分的偏移值，单位：Byte（字节） \newline 可与本地计算的CRC32值对比 & \\
+API & \textcolor{red}{offset} & 已传部分的偏移值，单位：Byte（字节） & \\
 \hline
 API & \textcolor{red}{host} & 下一请求报文使用的主机域名 & \\
 \hline
@@ -684,7 +688,7 @@ API & \textcolor{red}{host} & 下一请求报文使用的主机域名 & \\
 
 \clearpage
 
-\qblock{■\thinspace 请求（合成文件，传递资源大小、资源名和上传上下文信息）：}
+\qblock{■\thinspace 请求样例2，合成资源，传递资源大小、资源名和上传上下文信息：}
 {
 \tt \footnotesize
 \qhttp{POST \textcolor{red}{/mkfile}\textcolor{YellowGreen}{/46}\textcolor{red}{/key/dGVzdDIudHh0} HTTP/1.1}
@@ -718,7 +722,7 @@ http://<selectedUpHost>/mkfile/<blockSize>
 \hline
 HTTP & \textcolor{blue}{Content-Type} & 指定上传上下文的内容类型 \newline 固定值：text/plain & \\
 \hline
-HTTP & \textcolor{blue}{Host} & 目标服务器 \newline 可变值：mkblk响应报文中的host字段值 & \\
+HTTP & \textcolor{blue}{Host} & 上传服务器主机域名 \newline 可变值：mkblk响应报文中的host字段值 & \\
 \hline
 HTTP & \textcolor{blue}{Authorization} & 上传授权凭证 \newline 格式：UpToken <授权凭证> & 即mkblk请求报告中的授权凭证 \\
 \hline
@@ -728,12 +732,14 @@ API & \textcolor{YellowGreen}{/46} & 资源大小 & \\
 \hline
 API & \textcolor{red}{/key/dGVzdDIudHh0} & 指定资源名 & 需要编码为URL友好的Base64格式 \\
 \hline
+API & \textcolor{YellowOrange}{oOFl-Y7dIZ...} & 各个数据块的上传上下文列表，以逗号（,）分隔 \newline 按数据块在资源中的位置排序 & \\
+\hline
 \end{tabular}
 }
 
 \clearpage 
 
-\qblock{■\thinspace 响应（合成文件）：}
+\qblock{■\thinspace 响应样例2，合成资源：}
 {
 \tt \footnotesize
 \qhttp{HTTP/1.1 200 OK}
@@ -766,13 +772,251 @@ API & \textcolor{red}{key} & 最终资源名 & \\
 \end{tabular}
 }
 
+\clearpage
+
+\subsection{大型资源上传（6MB）}
+
+\qpara{对于超过4MB的资源，断点续上传要求按4MB为单位将资源分割成数据块（Block），并进一步切分成数据片（Chunk）上传。}
+\qpara{数据块可以并发上传，而同一个数据块的数据片只能串行上传。}
+\qpara{数据片的大小可根据实际情况动态调整。}
+\qpara{本例涉及到两个数据块串行上传。}
+
+\qblock{■\thinspace 策略参数：}
+{
+\tt \footnotesize
+\qhttp{\{}
+\qhttp{    "scope":    "demoshow:zeros",}
+\qhttp{    "deadline": 1379918153,}
+\qhttp{\}}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 请求样例1，创建1号数据块上传会话，传递首个数据块大小与其第一个数据片：}
+{
+\tt \footnotesize
+\qhttp{POST /mkblk/\textcolor{LimeGreen}{4194304} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{\textcolor{blue}{Content-Length: 262144}}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{Content-Type: application/octet-stream}
+\qhttp{Host: up.qiniu.com}
+\qhttp{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:iUhDkt1IhUazVkJLP7...}
+\qhttp{\ }
+\qhttp{...}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 参数说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{9em}|p{17em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+HTTP & \textcolor{blue}{Content-Length} & 上传数据片大小 & \\
+\hline
+API & \textcolor{LimeGreen}{/4194304} & 上传数据块大小 & 最大4MB \\
+\hline
+\end{tabular}
+}
+
+\qpara{\ }
+
+\qblock{■\thinspace 响应样例1，收存第一个数据片，返回1号上传会话信息：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Fri, 11 Oct 2013 07:25:53 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 327}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: UP:4}
+\qhttp{X-Reqid: IxwAAPh6wJFs\_SsT}
+\qhttp{\ }
+\qhttp{\{"ctx":"uIBWEEiv8J...","checksum":"LgAPp-hXWc...","crc32":3792628258,}
+\qhttp{"offset":262144,"host":"http://up-nb-5.qbox.me"\}}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 请求样例2，传递1号上传上下文、已传大小与第N个数据片：}
+{
+\tt \footnotesize
+\qhttp{POST \textcolor{red}{/bput}\textcolor{SkyBlue}{/uIBWEEiv8J...}\textcolor{LimeGreen}{/262144} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{Content-Length: 262144}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{Content-Type: application/octet-stream}
+\qhttp{\textcolor{blue}{Host: up-nb-5.qbox.me}}
+\qhttp{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:iUhDkt1IhUazVkJLP7...}
+\qhttp{\ }
+\qhttp{...}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 参数说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{9em}|p{17em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+HTTP & \textcolor{blue}{Host} & 服务器返回的下一上传服务器主机域名 \newline 保证会话维持在相同服务器上 & \\
+\hline
+API & \textcolor{red}{/bput} & 上传指令：上传数据片 & 最大4MB \\
+\hline
+API & \textcolor{SkyBlue}{/uIBWEEiv8J..} & 已传部分的上传上下文 & \\
+\hline
+API & \textcolor{LimeGreen}{/262144} & 上传偏移位置 & \\
+\hline
+\end{tabular}
+}
+
+\qpara{\ }
+
+\qblock{■\thinspace 响应样例2，收存第N个数据片，返回1号上传会话信息：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Fri, 11 Oct 2013 07:25:53 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 327}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: UP:7}
+\qhttp{X-Reqid: IxwAAEgEC6ps\_SsT}
+\qhttp{\ }
+\qhttp{\{"\textcolor{red}{ctx}":"JpQn4L-Kz3...","checksum":"alIeHSpjLC...","crc32":3792628258,}
+\qhttp{"offset":524288,"host":"http://up-nb-5.qbox.me"\}}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 返回值说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{9em}|p{17em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+API & \textcolor{red}{ctx} & 已传部分的上传上下文，随着成功上传内容的增多而变化 & \\
+\hline
+\end{tabular}
+}
+
+\qpara{\ }
+
+\qblock{■\thinspace 请求样例3，创建2号数据块上传会话，传递第二个数据块大小与其第一个数据片：}
+{
+\tt \footnotesize
+\qhttp{POST /mkblk\textcolor{LimeGreen}{/2097152} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{\textcolor{blue}{Content-Length: 262144}}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{Content-Type: application/octet-stream}
+\qhttp{\textcolor{blue}{Host: up-nb-5.qbox.me}}
+\qhttp{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:iUhDkt1IhUazVkJLP7...}
+\qhttp{\ }
+\qhttp{...}
+\qhttp{\ }
+}
+
+\qblock{●\thinspace 参数说明：}
+\qtable{
+\def\arraystretch{2}
+\begin{tabular}{|l|p{9em}|p{17em}|p{7em}|}
+\hline
+协议层次 & 名称 & 说明 & 备注 \\
+\hline
+HTTP & \textcolor{blue}{Content-Length} & 上传数据片大小 & \\
+\hline
+HTTP & \textcolor{blue}{Host} & 服务器返回的下一上传服务器主机域名 \newline 保证所有数据块会话维持在相同服务器上 & \\
+\hline
+API & \textcolor{LimeGreen}{/262144} & 上传数据块大小 & \\
+\hline
+\end{tabular}
+}
+
+\qpara{\ }
+
+\qblock{■\thinspace 响应样例3，收存第1个数据片，返回2号上传会话信息：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Fri, 11 Oct 2013 07:26:06 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 327}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: UP:7}
+\qhttp{X-Reqid: IxwAANjV1ohv\_SsT}
+\qhttp{\ }
+\qhttp{\{"ctx":"cXa9tl8idv...","checksum":"LgAPp-hXWc...","crc32":3792628258,}
+\qhttp{"offset":262144,"host":"http://up-nb-5.qbox.me"\}}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 请求样例4，合成资源，传递资源大小、资源名和上传上下文信息列表：}
+{
+\tt \footnotesize
+\qhttp{POST \textcolor{red}{/mkfile}\textcolor{YellowGreen}{/6291456}\textcolor{SkyBlue}{/key/emVyb3M=} HTTP/1.1}
+\qhttp{Connection: close}
+\qhttp{Content-Length: 417}
+\qhttp{User-Agent: Easy-Qiniu-Perl-SDK/0.1}
+\qhttp{Content-Type: text/plain}
+\qhttp{Host: up-nb-5.qbox.me}
+\qhttp{Authorization: UpToken u8WqmQu1jH21kxpIQmo2LqntzugM1VoHE9\_pozCU:iUhDkt1IhUazVkJLP7...}
+\qhttp{\ }
+\qhttp{TonL6i-rCDeO2rRnbqZmYXnGiJNc1QxEUrPuZU-gEpcAmGfdaoqgkYoSr7qnyLQMFHu428MAAAAAAAAAAAAAAA}
+\qhttp{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA}
+\qhttp{lAkAAPfWV1IAAEAAAABAAAMAAAAVAP\_\_\_\_8=\textcolor{red}{,}pqqAr1UMKPQQlCBHnt0oGNE9oPVhy1uEXUsaMiHI\_Y4ADlVfP}
+\qhttp{YZPpHluvFxJnab8i8wECL8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA}
+\qhttp{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAlAkAABHXV1IAACAAAAAgAAMAAAAVAP\_\_\_\_8=}
+\qhttp{\ }
+}
+
+\qblock{■\thinspace 响应样例4，合成资源：}
+{
+\tt \footnotesize
+\qhttp{HTTP/1.1 200 OK}
+\qhttp{Server: nginx/1.0.8}
+\qhttp{Date: Fri, 11 Oct 2013 07:26:10 GMT}
+\qhttp{Content-Type: application/json}
+\qhttp{Connection: close}
+\qhttp{Cache-Control: no-store, no-cache, must-revalidate}
+\qhttp{Content-Length: 53}
+\qhttp{Pragma: no-cache}
+\qhttp{X-Content-Type-Options: nosniff}
+\qhttp{X-Log: rs.put:11;mkfilev2.onFilePutted:12;UP:17}
+\qhttp{X-Reqid: IxwAADCc4YZw\_SsT}
+\qhttp{\ }
+\qhttp{\{"hash":"lvxwSaB2VXJaY8dXRiat4RlrTPTZ","key":"zeros"\}}
+\qhttp{\ }
+}
+
+\clearpage
+
 \section{追加上传}
 
 \qpara{待续……}
 
 \chapter{FAQ}
 
-\qpara{待续……}
+\begin{itemize}
+  \item 资源名可以是中文吗？\par
+  \qhint{资源名可以是中文，上传前需要转换成UTF-8编码。}
+
+  \item 为什么上传授权凭证会经常失效？\par
+  \qhint{上传授权凭证使用的过期时间是绝对时间，需要将本地机器的时间校正为标准UTC时间（并设置为东八区）。}
+\end{itemize}
 
 \chapter{术语}
 
